@@ -1,0 +1,124 @@
+<div class="container">
+  <div class="row justify-content-center m-2">
+    <h2>Menú de Buscar Cliente</h2>
+  </div>
+
+  <form autocomplete="off">
+    <div class="row justify-content-center">
+      <div class="form-group col-md-5">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Nombre..."
+          ngModel
+          name="clientName"
+          #clientName="ngModel"
+          [maxlength]="50"
+          pattern="[a-zA-Záéíóúñ ?]+"
+          [class.is-invalid]="clientName.invalid"
+          (keyup)="_fGetClients(clientName.value, clientDNI.value)"
+        />
+        <div class="container-small">
+          <small *ngIf="clientName.invalid" class="form-text text-danger"
+            >No números y texto no mayor de 50 caracteres</small
+          >
+        </div>
+      </div>
+      <div class="form-group col-md-3">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="DNI..."
+          ngModel
+          name="DNI"
+          #clientDNI="ngModel"
+          [maxlength]="8"
+          pattern="[\d]{0,8}"
+          [class.is-invalid]="clientDNI.invalid"
+          (keyup)="_fGetClients(clientName.value, clientDNI.value)"
+        />
+        <div class="container-small">
+          <small
+            *ngIf="clientDNI.invalid || clientDNI.value.length === 8"
+            class="form-text text-danger"
+            >Solo números hasta 8 dígitos</small
+          >
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="card mt-3">
+    <h5 class="card-header"><strong>Lista de Clientes:</strong></h5>
+    <div class="card-body">
+      <div class="row">
+        <div class="example-container">
+          <table mat-table [dataSource]="_clients">
+            <ng-container matColumnDef="_name">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let _element">{{ _element._name }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="_DNI">
+              <th mat-header-cell *matHeaderCellDef>DNI</th>
+              <td mat-cell *matCellDef="let _element">{{ _element._DNI }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="_RUC">
+              <th mat-header-cell *matHeaderCellDef>RUC</th>
+              <td mat-cell *matCellDef="let _element">
+                {{ _element._RUC }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="_cel">
+              <th mat-header-cell *matHeaderCellDef>Celular</th>
+              <td mat-cell *matCellDef="let _element">{{ _element._cel }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="_address">
+              <th mat-header-cell *matHeaderCellDef>Dirección</th>
+              <td mat-cell *matCellDef="let _element">
+                {{ _element._address }}
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="_displayedColumns; sticky: true"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: _displayedColumns; let i = index"
+              [ngClass]="{
+                highlight: i === this._clientService._selectedRowIndex
+              }"
+              (click)="highlight(row, i)"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center">
+        <button
+          (click)="salesRedirect()"
+          class="btn btn-dark m-2"
+          [attr.disabled]="
+            this._clientService._selectedRowIndex === -1 ? false : null
+          "
+        >
+          Agregar Cliente Seleccionado
+        </button>
+        <app-register-modify-client
+          *ngFor="let modal of modeModal; let i = index"
+          [mode]="modal"
+          [index]="i"
+        ></app-register-modify-client>
+        <button (click)="salesRedirect()" class="btn btn-dark m-2">
+          Cancelar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

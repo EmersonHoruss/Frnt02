@@ -1,0 +1,232 @@
+<!-- <h3 class="text-center">Agregar Producto a Pedido de Venta</h3> -->
+<div class="sales-detail-container">
+  <!-- SELECT OF SEARCHES -->
+  <div class="sales-detail-item 1">
+    <div class="card">
+      <h4 class="card-header">Buscar Producto:</h4>
+      <div class="card-body">
+        <form autocomplete="off">
+          <div class="row justify-content-center">
+            <div class="form-group col-md-5">
+              <select
+                class="form-control"
+                name="_category"
+                ngModel
+                #_category="ngModel"
+                (ngModelChange)="_fSelectedCategory($event)"
+              >
+                <option disabled selected value="">Categoria</option>
+                <option
+                  *ngFor="let _category of _categories"
+                  [value]="_category._id"
+                >
+                  {{ _category._name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-3">
+              <select
+                class="form-control"
+                name="_brand"
+                ngModel
+                #_brand="ngModel"
+                (ngModelChange)="_fSelectedBrand($event)"
+              >
+                <option disabled selected value="">Marca</option>
+                <option *ngFor="let _brand of _brands" [value]="_brand._id">
+                  {{ _brand._name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group col-md-2">
+              <select
+                class="form-control"
+                name="_category"
+                ngModel
+                #_category="ngModel"
+                (ngModelChange)="_fSelectedSize($event)"
+              >
+                <option disabled selected value="">Talla</option>
+                <option *ngFor="let _size of _sizes" [value]="_size._id">
+                  {{ _size._name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH'S RESULT -->
+  <div class="sales-detail-item 2">
+    <div class="card">
+      <div class="card-header">
+        <strong>Productos que coinciden con la búsqueda:</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="example-container">
+            <table class="pointer" mat-table [dataSource]="_products">
+              <ng-container matColumnDef="_category">
+                <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._product._category._name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="_brand">
+                <th mat-header-cell *matHeaderCellDef>Marca</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._product._brand._name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="_size">
+                <th mat-header-cell *matHeaderCellDef>Talla</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._product._size._name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="_stock">
+                <th mat-header-cell *matHeaderCellDef>Stock</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._product._stock }}
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="_displayedColumnsProducts; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let row;
+                  columns: _displayedColumnsProducts;
+                  let i = index
+                "
+                [ngClass]="{
+                  highlight: i === this._productHService._selectedRowIndex
+                }"
+                (click)="highlight(row, i)"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELECTED PRODUCT'S PRICES -->
+  <div class="sales-detail-item 3">
+    <div class="card">
+      <div class="card-header">
+        <strong>Precios del producto seleccionado:</strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="example-container">
+            <table mat-table [dataSource]="_pricesSelectedProduct">
+              <ng-container matColumnDef="_nameKindPrice">
+                <th mat-header-cell *matHeaderCellDef>Tipo precio</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._kindPrice._name }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="_amountPrice">
+                <th mat-header-cell *matHeaderCellDef>Monto</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._amount + " S/" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="_drescriptionKindPrice">
+                <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{
+                    "Por comprar desde " +
+                      _element._kindPrice._beginningAmount +
+                      " hasta " +
+                      _element._kindPrice._lastAmount
+                  }}
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="_displayedColumnsPrices; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let row;
+                  columns: _displayedColumnsPrices;
+                  let i = index
+                "
+                [ngClass]="{
+                  highlight: i === this._pricesService._selectedRowIndex
+                }"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACEPT OR DECLINE SALES DETAIL -->
+  <div class="sales-detail-item 4">
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="form-group row">
+            <label for="colFormLabel" class="col-sm-4 col-form-label"
+              >Cantidad actual:</label
+            >
+            <div class="col-sm-2">
+              <input
+                type="text"
+                class="form-control"
+                disabled
+                name="_amountPrice"
+                [ngModel]="this._selectedProduct._stock"
+              />
+            </div>
+            <button
+              [disabled]="this._detailSOService._amount === 0"
+              class="btn btn-dark ml-5"
+              (click)="confirm()"
+            >
+              Confirmar
+            </button>
+          </div>
+          <div class="form-group row mt-3">
+            <label for="colFormLabel" class="col-sm-4 col-form-label"
+              >Cantidad para vender:
+            </label>
+            <div class="col-sm-2">
+              <input
+                type="number"
+                class="form-control"
+                min="1"
+                max="{{ this._selectedProduct._stock }}"
+                #amountSell
+                [disabled]="this._productHService._selectedRowIndex === -1"
+                (change)="triggerConfirmButton(amountSell.value)"
+                (keyup)="triggerConfirmButton(amountSell.value)"
+              />
+            </div>
+            <button (click)="salesRedirect()" class="btn btn-dark ml-5">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

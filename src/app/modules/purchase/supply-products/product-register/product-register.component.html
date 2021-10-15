@@ -1,0 +1,215 @@
+<!-- CONTENT -->
+<div class="own-container">
+  <div class="child-own-container">
+    <!-- TITLE PAGE -->
+    <h4 class="card-header text-center mt-4 mb-3">Registrar Productos</h4>
+
+    <!-- MAIN PAGE: FORM -->
+    <div class="card-body">
+      <!-- ATTRIBUTES -->
+      <div class="attributes">
+        <!-- CATEGORY -->
+        <div class="">
+          <!-- CONTENT -->
+          <div class="container row m-0">
+            <label
+              class="form-control col-5 mr-3 mb-0 left-input"
+              for="_category"
+              >Categoría:
+            </label>
+
+            <input
+              class="form-control col"
+              type="text"
+              id="_category"
+              placeholder="Ingrese categoría aquí"
+              name="_category"
+              minlength="{{ _product._category._minLength }}"
+              maxlength="{{ _product._category._maxLength }}"
+              [(ngModel)]="_product._category._name"
+              (input)="_validateCategory($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="container row m-0 msg-error mb-3">
+            <div class="col-5 mr-3"></div>
+            <p *ngIf="_product._category._msg._error" class="col-6 p-0 m-0">
+              {{ _product._category._msg._content }}
+            </p>
+          </div>
+        </div>
+
+        <!-- BRAND -->
+        <div>
+          <!-- CONTENT -->
+          <div class="container row m-0">
+            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+              >Marca:
+            </label>
+
+            <input
+              class="form-control col"
+              type="text"
+              id="_brand"
+              placeholder="Ingrese marca aquí"
+              name="_brand"
+              minlength="{{ _product._brand._minLength }}"
+              maxlength="{{ _product._brand._maxLength }}"
+              [(ngModel)]="_product._brand._name"
+              (input)="_validateBrand($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="container row m-0 msg-error mb-3">
+            <div class="col-5 mr-3"></div>
+            <p *ngIf="_product._brand._msg._error" class="col-6 p-0 m-0">
+              {{ _product._brand._msg._content }}
+            </p>
+          </div>
+        </div>
+
+        <!-- SIZE -->
+        <div>
+          <!-- CONTENT -->
+          <div class="container row m-0">
+            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+              >Talla:
+            </label>
+
+            <input
+              class="form-control col"
+              type="text"
+              id="_size"
+              placeholder="Ingrese talla aquí"
+              name="_size"
+              minlength="{{ _product._size._minLength }}"
+              maxlength="{{ _product._size._maxLength }}"
+              [(ngModel)]="_product._size._name"
+              (input)="_validateSize($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="container row m-0 msg-error mb-3">
+            <div class="col-5 mr-3"></div>
+            <p *ngIf="_product._size._msg._error" class="col-6 p-0 m-0">
+              {{ _product._size._msg._content }}
+            </p>
+          </div>
+        </div>
+
+        <!-- STOCK -->
+        <div>
+          <!-- CONTENT -->
+          <div class="container row m-0">
+            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+              >Cantidad:
+            </label>
+
+            <input
+              class="form-control col"
+              type="text"
+              id="_stock"
+              placeholder="Ingrese cantidad aquí"
+              name="_stock"
+              minlength="{{ _product._stock._minLength }}"
+              maxlength="{{ _product._stock._maxLength }}"
+              [(ngModel)]="_product._stock._value"
+              (input)="_validateStock($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="container row m-0 msg-error mb-3">
+            <div class="col-5 mr-3"></div>
+            <p *ngIf="_product._stock._msg._error" class="col-6 p-0 m-0">
+              {{ _product._stock._msg._content }}
+            </p>
+          </div>
+        </div>
+
+        <!-- PRICE -->
+        <div>
+          <!-- CONTENT -->
+          <div class="container row m-0">
+            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+              >Precio de compra:
+            </label>
+
+            <input
+              class="form-control col"
+              type="text"
+              id="_price"
+              placeholder="Ingrese precio aquí"
+              name="_price"
+              minlength="{{ _product._price._minLength }}"
+              maxlength="{{ _product._price._maxLength }}"
+              [(ngModel)]="_product._price._amount"
+              (input)="_validatePrice($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="container row m-0 msg-error mb-3">
+            <div class="col-5 mr-3"></div>
+            <p *ngIf="_product._price._msg._error" class="col-6 p-0 m-0">
+              {{ _product._price._msg._content }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- END PAGE: BUTTONS -->
+      <div class="card-footer">
+        <div class="row">
+          <!-- CONFIRM BUTTON -->
+          <div class="col pr-3 pl-3">
+            <button
+              class="btn btn-dark btn-block"
+              (click)="_save(content, contentSpiner)"
+            >
+              Guardar
+            </button>
+          </div>
+
+          <!-- START NEW BUTTON -->
+          <!-- <div class="col">
+          <button class="btn btn-dark btn-block">Empezar uno nuevo</button>
+        </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- SUCCES: DONE CORRECTLY -->
+<!-- ERROR: PRODUCT ALREADY REGISTED -->
+<ng-template #content let-modal>
+  <div class="container-msg">
+    <div class="msg">
+      <!-- ICON -->
+      <div class="icon i"><i [ngClass]="_msg._icon"></i></div>
+
+      <!-- INFORMATION -->
+      <div class="information">
+        <p class="title">{{ _msg._title }}</p>
+        <p class="detail">{{ _msg._detail }}</p>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="btns">
+        <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
+          Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentSpiner let-modal>
+  <p class="pb-3">Espere unos segundos por favor...</p>
+  <div class="spinner"></div>
+</ng-template>

@@ -1,0 +1,55 @@
+//app is divided by module, amoung these we have: human-resource,purchase,sale and user
+//each module has its own entities, so, create each of them
+
+*** Create files structure of service ***
+cd src/app/data/service
+md human-resources,purchase,sale,user
+cd human-resources
+md worker
+cd ..
+cd purchase
+md headquarter,brand,size,category,product,price
+cd ..
+cd sale
+md sale-order,client,detail-sale-order,product-headquarter, user-headquarter
+cd..
+cd user
+md avatar,user,kind-user,license,permission,module,sub-module
+cd..
+
+*** Create file structure of types***
+cd..
+cd types
+md human-resources,purchase,sale,user
+cd human-resources
+FOR %A IN ("worker") DO (echo. > %A.ts)
+cd..
+cd purchase
+FOR %A IN ("headquarter", "brand", "size","category","price","kind-price","product") DO (echo. > %A.ts)
+cd..
+cd user
+FOR %A IN ("avatar","user","kind-user","license","permission","module","submodule") DO (echo. > %A.ts)
+cd..
+cd sale
+FOR %A IN ("sale-order","client","detail-sale-order","producct-headquarter","user-headquarter") DO (echo. > %A.ts)
+cd..
+
+*** Create file structure of module***
+cd..
+cd modules
+ng g m human-resources --routing
+ng g m purchase --routing
+ng g m sale --routing
+ng g m user --routing
+
+*** Create structure of purchase module ***
+ng g m purchase/supply-products --routing
+ng g c purchase/supply-products/register-products 
+ng g c purchase/supply-products/assign-prices 
+ng g c purchase/supply-products/kind-prices 
+ng g c purchase/supply-products/headquarter
+
+cd C:\Users\DAVID\Desktop\ciclos\9\tpi\FRONTENDS\FrEn02\src\app\modules\purchase\supply-products\
+
+cd C:\Users\DAVID\Desktop\ciclos\own\watched\javaScripy\angular\extrafh\angular-folder-structure
+FOR /L %A IN (1 1 10) DO (echo. > “File %A.txt”)

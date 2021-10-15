@@ -1,0 +1,10 @@
+.locked{
+  background-color: rgb(140, 140, 140);
+  border: thin rgb(140, 140, 140);
+}
+
+.container-small{
+  min-height: 2rem;
+  max-height: 2rem;
+  height: 2rem;
+}

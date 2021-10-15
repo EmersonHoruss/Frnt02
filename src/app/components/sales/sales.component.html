@@ -1,0 +1,344 @@
+<!-- MAIN -->
+<div class="sales-container">
+  <!-- CLIENT -->
+  <div class="sales-item 1 text-center">
+    <div class="card">
+      <h4 class="card-header"><strong>Información del Cliente:</strong></h4>
+      <div class="card-body">
+        <form>
+          <div class="form-row">
+            <div class="input-group col-md-7">
+              <span class="input-group-text" for="inputName">Nombre: </span>
+              <input
+                type="text"
+                class="form-control"
+                aria-describedby="basic-addon3"
+                id="inputName"
+                disabled
+                name="name"
+                [ngModel]="this._clientService._client._name"
+              />
+            </div>
+            <div class="col-md-1"></div>
+            <div class="input-group col-md-4">
+              <span class="input-group-text" for="inputDNI">DNI: </span>
+              <input
+                type="text"
+                class="form-control"
+                aria-describedby="basic-addon3"
+                id="inputDNI"
+                disabled
+                name="DNI"
+                [ngModel]="this._clientService._client._DNI"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENU CLIENT -->
+  <div class="sales-item 2">
+    <div class="card">
+      <div class="card-header">Menú Cliente</div>
+      <div class="card-body text-center">
+        <button
+          (click)="addClient()"
+          type="button"
+          class="btn btn-dark m-2 mt-2 mb-3"
+        >
+          Agregar
+        </button>
+        <!-- <button
+          class="btn btn-dark m-2 mt-3 mb-3"
+          (click)="updateClient()"
+          [disabled]="disableClientButton()"
+        >
+          Modificar
+        </button> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SALE'S DETAILS -->
+  <div class="sales-item 3">
+    <div class="card">
+      <div class="card-header"><strong>Lista de Productos:</strong></div>
+      <div class="card-body">
+        <div class="row">
+          <div class="example-container">
+            <table class="pointer" mat-table [dataSource]="_detailSOs">
+              <!-- <table class="pointer" mat-table [dataSource]="getItems()"> -->
+              <ng-container matColumnDef="_category">
+                <th mat-header-cell *matHeaderCellDef>Categoría</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._productHeadquarter._product._category._name }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef>Total</td>
+              </ng-container>
+
+              <ng-container matColumnDef="_brand">
+                <th mat-header-cell *matHeaderCellDef>Marca</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._productHeadquarter._product._brand._name }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="_size">
+                <th mat-header-cell *matHeaderCellDef>Talla</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._productHeadquarter._product._size._name }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="_price">
+                <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._amount }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="_amount">
+                <th mat-header-cell *matHeaderCellDef>Precio</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._price + " S/" }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+              </ng-container>
+
+              <ng-container matColumnDef="_subtotal">
+                <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+                <td mat-cell *matCellDef="let _element">
+                  {{ _element._price * _element._amount + " S/" }}
+                </td>
+                <td mat-footer-cell *matFooterCellDef>
+                  {{ getTotalCost() + " S/" }}
+                </td>
+              </ng-container>
+
+              <tr
+                mat-header-row
+                *matHeaderRowDef="_displayedColumnsDetailSO; sticky: true"
+              ></tr>
+              <tr
+                mat-row
+                *matRowDef="
+                  let row;
+                  columns: _displayedColumnsDetailSO;
+                  let i = index
+                "
+                [ngClass]="{
+                  highlight: i === this._detailSOService._selectedRowIndex
+                }"
+                (click)="highlight(row, i)"
+              ></tr>
+              <tr
+                mat-footer-row
+                *matFooterRowDef="_displayedColumnsDetailSO; sticky: true"
+              ></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALE'S DETAILS MENU -->
+  <div class="sales-item 4">
+    <div class="card">
+      <div class="card-header">Menú Productos</div>
+      <div class="card-body text-center">
+        <button (click)="addDetailSO()" class="btn btn-dark m-2 mt-2">
+          Agregar
+        </button>
+        <!-- <button
+          class="btn btn-dark m-2 mt-2"
+          (click)="updateDetailSO(updateDSO)"
+          [disabled]="disableDetailSOButton()"
+        >
+          Modificar
+        </button> -->
+      </div>
+      <div class="text-center">
+        <button
+          class="btn btn-dark mb-4"
+          (click)="deleteDetailSO()"
+          [disabled]="disableDetailSOButton()"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALE MENU -->
+  <div class="sales-item 5">
+    <div class="card">
+      <div class="card-header">Menú Pedido</div>
+      <div class="card-body text-center">
+        <button
+          class="btn btn-dark m-2 mt-3"
+          [disabled]="disableSOButton()"
+          (click)="takeSaleOrder()"
+        >
+          Guardar
+        </button>
+        <button class="btn btn-dark m-2 mt-3" (click)="deleteSaleOrder()">
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- UPDATE DETAIL SALE ORDER -->
+<ng-template #updateDSO let-modal>
+  <!-- MODAL HEADER -->
+  <div class="modal-header">
+    <h4 class="modal-title">Actualizar Detalle Pedido</h4>
+    <button
+      class="close"
+      aria-label="close"
+      type="button"
+      (click)="modal.dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <!-- MODAL BODY -->
+  <div class="modal-body">
+    <div class="container">
+      <div class="row">
+        <div class="col-5">
+          <div class="container">
+            <span>Categoría</span>
+            <input
+              type="text"
+              class="form-control"
+              disabled
+              [ngModel]="getDetailSO()._category"
+            />
+          </div>
+          <div class="container mt-2">
+            <span>Marca</span>
+            <input
+              type="text"
+              class="form-control"
+              disabled
+              [ngModel]="getDetailSO()._brand"
+            />
+          </div>
+          <div class="container mt-2">
+            <span>Talla</span>
+            <input
+              type="text"
+              class="form-control"
+              disabled
+              [ngModel]="getDetailSO()._size"
+            />
+          </div>
+          <div class="container mt-2">
+            <span>Cantidad solicitada</span>
+            <input
+              type="text"
+              class="form-control"
+              disabled
+              [ngModel]="getDetailSO()._amount"
+            />
+          </div>
+          <div class="container row mt-3">
+            <div class="col-6">
+              <span>Cambiar cantidad</span>
+              <input
+                type="number"
+                class="form-control"
+                min="1"
+                max="{{ getDetailSO()._stock }}"
+                #_amountSell
+              />
+            </div>
+
+            <div class="col-6">
+              <span>Stock</span>
+              <input
+                type="text"
+                class="form-control"
+                disabled
+                [ngModel]="getDetailSO()._stock"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="example-container col-7">
+          <table mat-table [dataSource]="_pricesSelectedProduct">
+            <ng-container matColumnDef="_nameKindPrice">
+              <th mat-header-cell *matHeaderCellDef>Tipo precio</th>
+              <td mat-cell *matCellDef="let _element">
+                {{ _element._kindPrice._name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="_amountPrice">
+              <th mat-header-cell *matHeaderCellDef>Monto</th>
+              <td mat-cell *matCellDef="let _element">
+                {{ _element._amount + " S/" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="_drescriptionKindPrice">
+              <th mat-header-cell *matHeaderCellDef>Descripcion</th>
+              <td mat-cell *matCellDef="let _element">
+                {{
+                  "Por comprar desde " +
+                    _element._kindPrice._beginningAmount +
+                    " hasta " +
+                    _element._kindPrice._lastAmount
+                }}
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="_displayedColumnsPrices; sticky: true"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="
+                let row;
+                columns: _displayedColumnsPrices;
+                let i = index
+              "
+              [ngClass]="{
+                highlight: i === this._pricesService._selectedRowIndex
+              }"
+            ></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button
+        type="button"
+        class="btn btn-dark btn-lg mx-auto"
+        (click)="saveUpdating(_amountSell.value)"
+      >
+        Aceptar
+      </button>
+    </div>
+  </div>
+  <!-- <div class="modal-footer"> -->
+  <!-- </div> -->
+</ng-template>
+
+<!-- <button
+  type="button"
+  class="btn btn-dark m-2"
+  (click)="updateDetailSO(updateDSO)"
+>
+  Actualizar Detalle Pedido
+</button> -->

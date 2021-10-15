@@ -1,0 +1,37 @@
+<!-- Modal -->
+
+<div class="modal-dialog modal-dialog-centered container-msg" role="document">
+  <div class="modal-content msg">
+    <!-- ICON -->
+    <div class="icon"><i [ngClass]="_msg._icon"></i></div>
+
+    <!-- INFORMATION -->
+    <div class="information">
+      <p class="title">{{ _msg._title }}</p>
+      <p class="detail">{{ _msg._detail }}</p>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btns">
+      <div *ngIf="_msg._type !== 'warning'">
+        <button class="btn btn-dark btn-lg" (click)="activeModal.dismiss('ok click')">Ok</button>
+      </div>
+      <div *ngIf="_msg._type === 'warning'">
+        <button
+          class="btn btn-dark btn-lg"
+          (click)="activeModal.dismiss('yes click')"
+          data-dismiss="modal"
+        >
+          Sí
+        </button>
+        <button
+          class="btn btn-dark btn-lg"
+          (click)="activeModal.dismiss('no click')"
+          data-dismiss="modal"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

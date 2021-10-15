@@ -1,0 +1,223 @@
+<!-- <ng-template #message let-modalMsje>
+  <div class="modal-header">
+    <h4>Mensaje Cliente</h4>
+    <button
+      class="close"
+      aria-label="close"
+      type="button"
+      (click)="modalMsje.dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h2>Cliente Guardado Exitosamente! :D</h2>
+  </div>
+  <button>Aceptar</button>
+</ng-template> -->
+
+<ng-template #contenido let-modal>
+  <div class="modal-header">
+    <h4>{{ mode }} Cliente</h4>
+    <button
+      class="close"
+      aria-label="close"
+      type="button"
+      (click)="modal.dismiss()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  
+  <div class="modal-body">
+    <div
+      class="alert alert-danger alert-dismissible fade show"
+      *ngIf="_msje === 0"
+      role="alert"
+    >
+      ERROR! Debe tener al menos registrado el nombre del cliente para guardarlo
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div
+      class="alert alert-info alert-dismissible fade show"
+      *ngIf="_msje === 1"
+      role="alert"
+    >
+      El cliente ha sido guardado exitosamente
+      <button
+        type="button"
+        class="close"
+        data-dismiss="alert"
+        aria-label="Close"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form autocomplete="off">
+      <!-- Full name -->
+      <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 col-form-label">Nombre completo: </label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingrese nombre completo del cliente"
+            ngModel
+            name="_name"
+            #_name="ngModel"
+            required
+            pattern="[a-zA-Záéíóúñ ?]+"
+            minlength="2"
+            maxlength="50"
+            [class.is-invalid]="validateName(_name)"
+          />
+          <div class="container-small">
+            <small *ngIf="validateName(_name)" class="form-text text-danger"
+              >El nombre debe estar entre 2 a 50 dígitos no numéricos</small
+            >
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+
+      <!-- DNI -->
+      <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 col-form-label">DNI: </label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingrese DNI del cliente"
+            ngModel
+            name="_DNI"
+            #_DNI="ngModel"
+            pattern="[\d]{8}"
+            maxlength="8"
+            [class.is-invalid]="_DNI.invalid"
+            (input)="_supportService.validateDNI($event,9)"
+          />
+          <div class="container-small">
+            <small *ngIf="_DNI.invalid" class="form-text text-danger"
+              >El DNI debe tener 8 dígitos numéricos</small
+            >
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+
+      <!-- RUC -->
+      <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 col-form-label">RUC: </label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingrese RUC del cliente"
+            ngModel
+            name="_RUC"
+            #_RUC="ngModel"
+            pattern="[\d]{11}"
+            maxlength="11"
+            [class.is-invalid]="_RUC.invalid"
+          />
+          <div class="container-small">
+            <small *ngIf="_RUC.invalid" class="form-text text-danger">
+              El DNI debe tener 11 dígitos numéricos
+            </small>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+
+      <!-- Cel -->
+      <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 col-form-label">Celular: </label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingrese celular del cliente"
+            ngModel
+            name="_cel"
+            #_cel="ngModel"
+            pattern="[\d]{9}"
+            maxlength="9"
+            [class.is-invalid]="_cel.invalid"
+          />
+          <div class="container-small">
+            <small *ngIf="_cel.invalid" class="form-text text-danger"
+              >El celular debe tener 9 dígitos numéricos</small
+            >
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+
+      <!-- Address -->
+      <div class="form-group row">
+        <div class="col-1"></div>
+        <label class="col-3 col-form-label">Dónde vive: </label>
+        <div class="col-6">
+          <input
+            class="form-control"
+            type="text"
+            placeholder="Ingrese el lugar de contacto o donde vive el cliente"
+            ngModel
+            name="_address"
+            #_address="ngModel"
+            maxlength="50"
+            [class.is-invalid]="_address.invalid"
+          />
+          <div class="container-small">
+            <small *ngIf="_address.invalid" class="form-text text-danger"
+              >Dirección muy grande, debe ser menos de 50 caracteres
+            </small>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </form>
+  </div>
+
+  <div class="text-center">
+    <button
+      type="button"
+      class="btn btn-dark m-3"
+      (click)="saveClient(_name, _DNI, _RUC, _cel, _address)"
+    >
+      Registrar
+    </button>
+    <button type="button" class="btn btn-dark m-3" (click)="modal.close()">
+      Cancelar
+    </button>
+  </div>
+</ng-template>
+
+<button
+  *ngIf="index == 0"
+  type="button"
+  class="btn btn-dark m-2"
+  (click)="openRegisterModal(contenido)"
+>
+  Registrar Nuevo Cliente
+</button>
+<!-- <button
+  *ngIf="index == 1"
+  type="button"
+  class="btn btn-dark m-2"
+  (click)="openUpdateModal(contenido)"
+  [attr.disabled]="this._clientService._selectedRowIndex === -1 ? false : null"
+>
+  Modificar Cliente Seleccionado
+</button> -->

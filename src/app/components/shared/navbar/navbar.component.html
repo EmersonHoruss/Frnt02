@@ -1,0 +1,85 @@
+<ng-sidebar-container>
+  <ng-sidebar [(opened)]="_opened" position="left" mode="push">
+    <div class="text-justify mt-3 mb-2 avatar">
+      <img class="avatar-img" [src]="this._supportService._avatar" />
+      <p class="avatar-name">{{ this._supportService._avatarName }}</p>
+    </div>
+    <nav class="dashboard-nav-list">
+      <button class="btn btn-dark item" [routerLink]="['home']">
+        <i class="fas fa-home"></i> &nbsp;Inicio
+      </button>
+      <!-- <button
+        class="btn btn-dark item"
+        [routerLink]="['sales']"
+        (click)="createSaleOrder()"
+      >
+        <i class="fas fa-cart-arrow-down"></i> &nbsp;Registrar Pedido
+      </button>
+
+      <button class="btn btn-dark item" [routerLink]="['sales']">
+        <i class="fas fa-money-bill-alt"></i> &nbsp;Cobrar Pedido
+      </button>
+
+      <button class="btn btn-dark item" [routerLink]="['sales']">
+        <i class="fas fa-cash-register"></i> &nbsp;Ver Caja
+      </button> -->
+
+      <!-- <button
+        class="btn btn-dark item"
+        [routerLink]="['/purchase/supply-products/register-products']"
+      >
+        <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
+      </button> -->
+
+      <button
+        class="btn btn-dark item"
+        [routerLink]="['/purchase/supply-products/product-register']"
+      >
+        <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
+      </button>
+
+      <!-- <button
+        class="btn btn-dark item"
+        [routerLink]="['/purchase/supply-products/headquarter']"
+      >
+        <i class="fas fa-store "></i> &nbsp;Sedes
+      </button> -->
+
+      <button class="btn btn-dark last-item mb-2 item fixed-bottom">
+        <i class="fas fa-sign-out-alt"></i> &nbsp;Cerrar sesión
+      </button>
+    </nav>
+  </ng-sidebar>
+
+  <div ng-sidebar-content>
+    <div class="header">
+      <button
+        (click)="_toggleSidebar()"
+        class="btn btn-dark ntb"
+        *ngIf="_opened"
+      >
+        <!-- <i class="fas fa-bars fa-2x"></i> -->
+        <i class="fas fa-caret-left fa-3x"></i>
+      </button>
+      <button
+        (click)="_toggleSidebar()"
+        class="btn btn-dark ntb"
+        *ngIf="!_opened"
+      >
+        <!-- <i class="fas fa-bars fa-2x"></i> -->
+        <i class="fas fa-caret-right fa-3x"></i>
+      </button>
+
+      <div class="container">
+        <app-header> </app-header>
+      </div>
+    </div>
+
+    <!-- ALL THE DYNAMIC CONTENT BY ROUTER OUTLET -->
+    <div class="dynamic-content">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</ng-sidebar-container>

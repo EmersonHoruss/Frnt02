@@ -1,0 +1,91 @@
+FUNCTIONALITY CONFIRM BUTTON
+
+if (newProduct){
+	if(newAmount)	PUT productHeadquarter
+	if(newCost)	PUT price
+	if(newAmount and newCost) PUT productHeadquarter and PUT price
+}else{
+	POST product
+	POST productHeadquarter
+	POST price
+}
+
+newProduct	newCost		work
+0		0		0
+0		1		1
+1		0		1
+1		1		1
+
+work = np || nc
+
+probando: ◘
+newProduct   ||  newCost   =    work	test
+0		0		0	◘
+0		1		1	◘
+1		0		1	◘
+1		1		1	◘
+
+
+
+Time: 34 minutes
+Late for:
+	look what kind of variables it's neccesary in backend
+	look reaction of a variable in the frontend
+	feed my puppies
+	programming
+
+Modularizating modal:
+	Time: 10 minutes
+	Late for:
+		programming
+
+Program modal in confirm button:
+	Time: 7 minutes
+	Late for: 
+		programming
+
+Changing the price to cost
+	Time: 10 minutes
+	Late for:
+		register in the excel the new kind price: Compra
+		register in the bakcend the new kind price: Compra
+		change the frontend in the html and in the component.ts
+		test the changes
+
+Create service product
+	Time: 9 minutes
+	Late for:
+		check url in backend
+		create route in frontend
+		programman service in forntend
+		put into the component
+		test the url
+
+Programman generator of productH
+	Time: 8 minutes
+	Late for:
+		check the service
+		Check backend and its variables
+		programman the generator
+
+Program generator of price
+	Time: 27 minutes
+	Late for:
+		check the service
+		change the backend
+		look for filter method
+		check cel
+		test the changed backend
+		program service
+		program component
+		test the service works fine
+		
+Get better functionality confirm btn
+	Time: 3 minutes
+	Late for:
+		Just getting better
+
+Program the new functionality
+	Time: 3 minutes
+	Late for: 
+		Passing the new funtionality to code

@@ -1,0 +1,54 @@
+
+
+^[1-9]{1}$|^[1-4]{1}[0-9]{1}$|50$
+
+
+Para registrar un producto es necesario:
+	CONDICIÓN ÉXITO: tener una cantidad y un costo, ya sea un nuevo costo o uno que ya hemos definido
+	ERROR: en caso contrario el sistema no permite la activación del botón confirmar
+
+Al no encontrar un producto en la sede el sistema mostrará mensaje en inputs que no se tiene stock ni costo porque el producto es nuevo
+
+Empezar uno nuevo:
+	El sistema mostrará mensaje si desea empezar uno nuevo siempre y cuando el usuario tenga datos en la cantidad o en el costo siempre y cuando ya exista un costo anterior o tanto en la cantidad como en el costo
+
+
+
+**minimo un costo**
+newAmount	currentCost	newCost		turnOn
+0		0		0		0
+0		0		1		1
+0		1		0		0
+0		1		1		1
+1		0		0		0
+1		0		1		1
+1		1		0		1
+1		1		1		1
+
+
+na\cc*nc
+	00	01	11	10
+0	0	1	1	0
+1	0	1	1	1
+nc+[(na)(cc)]
+
+_newCost || (_newAmount && _currentCost)
+0		0		0		0
+1		0		0		1
+0		0		1		0
+1		0		1		1
+0		1		0		0
+1		1		0		1
+0		1		1		1
+1		1		1		1
+
+probando:◘
+_newCost || (_newAmount && _currentCost)
+0		0		0		0	◘
+1		0		0		1	◘
+0		0		1		0	◘
+1		0		1		1	◘
+0		1		0		0	◘
+1		1		0		1	◘
+0		1		1		1	◘
+1		1		1		1	◘

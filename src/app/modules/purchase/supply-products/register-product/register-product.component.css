@@ -1,0 +1,101 @@
+.own-container {
+    padding-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .child-own-container {
+    width: 60%;
+  }
+  
+  .button-icon {
+    border-radius: 50%;
+  }
+  
+  #body {
+    width: 100vw;
+    height: 100vh;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000000;
+  }
+  
+  /* .no {
+    background-color: black;
+    width: 10rem;
+    height: 10rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .si {
+    background-color: transparent;
+    position:absolute;
+    top: 0;
+    right: 0;
+    width: 7rem;
+    height: 7rem;
+  } */
+  /* .swal2-container.in {
+    background-color: transparent !important;
+    z-index: 0 !important;
+  } */
+  
+  /* .button-icon:focus {
+    border-radius: 50%;
+  } */
+  
+  /* MODALL */
+  .i {
+    background-color: rgb(226, 230, 236);
+    color: rgb(108, 43, 45);
+    border-radius: 50%;
+  }
+  
+  .container-msg {
+    display: flex;
+    align-content: center;
+    justify-items: center;
+  }
+  
+  .msg {
+    background-color: rgb(226, 230, 236);
+    border: 2px solid rgb(226, 230, 236);
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .msg p {
+    text-align: center;
+  }
+  
+  .icon {
+    margin: 1rem 0;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+  }
+  
+  .detail {
+    font-size: 1.1rem;
+  }
+  
+  .btns {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .btns button {
+    margin: 0 0.5rem 1.5rem;
+    width: 5rem;
+  }
+  

@@ -1,0 +1,106 @@
+.example-container {
+  height: 22rem;
+  overflow: auto;
+  width: 100%;
+}
+
+table {
+  width: inherit;
+}
+
+th.mat-header-cell {
+  background-color: rgb(52, 58, 64);
+  border-right: thin solid white;
+  /* flex: 1 1 20%; */
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  text-align: center;
+  /* max-height: 10px !important; */
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  /* border-top: 1px solid transparent; */
+  border-right: thin solid white;
+}
+
+.pointer td{
+  cursor: pointer;
+}
+
+.pointer .mat-row:hover .mat-cell {
+  border-bottom: 1px solid rgb(96, 96, 96);
+}
+
+.highlight {
+  background-color: rgb(96, 96, 96); /* green */
+  color: white;
+}
+
+.locked {
+  background-color: rgb(140, 140, 140);
+  border: thin rgb(140, 140, 140);
+}
+
+.container-small {
+  height: 1rem;
+  margin-top: 0.3rem;
+  max-height: 1rem;
+}
+
+.container-small small {
+  padding: 0;
+  margin: 0;
+}
+
+/* .demo-row-is-clicked {
+    font-weight: bold;
+  
+  } */
+
+/* .mat-row .mat-cell{
+    background-color: rgb(242, 242, 242);
+  } */
+
+/* .mat-row{
+    background-color: yellow !important;
+  } */
+/* .my-custom-scrollbar {
+    position: relative;
+    height: 200px;
+    overflow: auto;
+    width: auto;
+  }
+  .table-wrapper-scroll-y {
+    display: block;
+  }
+  .tc-id {
+    width: 1%;
+  }
+  .table>tbody>tr>td {vertical-align: middle}
+  
+  .tr:hover{
+      background-color: rgba(69, 69, 69, 0.8);
+      color: white;
+      cursor: pointer;
+  }
+  
+  .demo-table {
+    width: 100%;
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .mat-row:hover .mat-cell {
+    border-color: currentColor;
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  } */

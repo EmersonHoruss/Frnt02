@@ -1,0 +1,16 @@
+newAmount	newCost		showWarning
+0		0		0
+0		1		1
+1		0		1
+1		1		1
+
+showWarning = na || nc
+
+probando: ◘
+newAmount   ||  newCost	   =    showWarning	test
+0		0		0		◘
+0		1		1		◘
+1		0		1		◘
+1		1		1		◘
+
+Tiempo tomado: 11 minutos

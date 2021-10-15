@@ -1,0 +1,268 @@
+<!-- CONTENT -->
+<div class="own-container">
+  <div class="child-own-container">
+    <!-- TITLE PAGE -->
+    <h4 class="card-header text-center mt-4 mb-3">Registrar Productos</h4>
+
+    <!-- MAIN PAGE: FORM -->
+    <div class="card-body">
+      <div class="row">
+        <!-- LEFT COLUMN -->
+        <div class="col">
+          <!-- FIRST ROW: HEADQUARTER -->
+          <div class="row mb-4 group-row">
+            <div class="col-10">
+              <ng-select
+                [items]="_headquarters"
+                bindLabel="_fullAddress"
+                bindValue="_id"
+                [(ngModel)]="_selectedHeadquarter"
+                class="custom"
+                placeholder="Seleccione una sede"
+                (change)="_lookForProduct()"
+              ></ng-select>
+            </div>
+            <div class="col-2 pl-0">
+              <button class="btn btn-secondary button-icon p-0" [routerLink]="['/purchase/supply-products/headquarter']">
+                <i class="fas fa-store fa-2x"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- SECOND ROW: BRAND -->
+          <!-- [readonly]="_onceCheckedHeadquarter" -->
+          <!-- [disabled]="_onceCheckedHeadquarter" -->
+          <div class="row mb-4 group-row">
+            <div class="col-10">
+              <ng-select
+                [items]="_brands"
+                bindLabel="_name"
+                bindValue="_id"
+                [(ngModel)]="_selectedBrand"
+                class="custom"
+                placeholder="Seleccione una marca"
+                (change)="_lookForProduct()"
+              ></ng-select>
+            </div>
+            <div class="col-2 pl-0">
+              <button
+                class="btn btn-secondary button-icon p-0"
+                (click)="_add(contentAdd, content, 'brand')"
+              >
+                <i class="fas fa-plus-circle fa-3x"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- THIRD ROW: AMOUNT -->
+          <div class="row mb-4">
+            <div class="col-10">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Ingrese cantidad"
+                [ngModel]="_newAmount"
+                name="_amount"
+                maxlength="3"
+                [disabled]="!_readyRegister"
+                (input)="_amountInput($event)"
+              />
+            </div>
+          </div>
+
+          <!-- FOURTH ROW: COST -->
+          <div class="row mb-4">
+            <div class="col-10">
+              <input
+                class="form-control"
+                type="text"
+                placeholder="Ingrese cuánto le costó"
+                name="_cost"
+                maxlength="3"
+                [ngModel]="_newCost"
+                [disabled]="!_readyRegister"
+                (input)="_costInput($event)"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN -->
+        <div class="col">
+          <!-- FIRST ROW: CATEGORY -->
+          <div class="row mb-4 group-row">
+            <div class="col-10">
+              <ng-select
+                [items]="_categories"
+                bindLabel="_name"
+                bindValue="_id"
+                [(ngModel)]="_selectedCategory"
+                placeholder="Seleccione una categoría"
+                (change)="_lookForProduct()"
+              ></ng-select>
+            </div>
+            <div class="col-2 pl-0">
+              <button
+                class="btn btn-secondary button-icon p-0"
+                (click)="_add(contentAdd, content, 'category')"
+              >
+                <i class="fas fa-plus-circle fa-3x"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- SECOND ROW: SIZE -->
+          <div class="row mb-4 group-row">
+            <div class="col-10">
+              <ng-select
+                [items]="_sizes"
+                bindLabel="_name"
+                bindValue="_id"
+                [(ngModel)]="_selectedSize"
+                placeholder="Seleccione una talla"
+                (change)="_lookForProduct()"
+              ></ng-select>
+            </div>
+            <div class="col-2 pl-0">
+              <button
+                class="btn btn-secondary button-icon p-0"
+                (click)="_add(contentAdd, content, 'size')"
+              >
+                <i class="fas fa-plus-circle fa-3x"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- THIRD ROW: STOCK -->
+          <div class="row mb-4">
+            <div class="col-10">
+              <input
+                type="text"
+                class="form-control"
+                aria-describedby="basic-addon3"
+                id="inputName"
+                placeholder="Stock actual: {{
+                  _currentStock | nullToString: 'stock':_allSelectsAreSelected()
+                }}"
+                disabled
+                name="_stock"
+              />
+            </div>
+          </div>
+
+          <!-- FOURTH ROW: STATE PRODUCTO, NEW OR OLDER -->
+          <div class="row mb-4">
+            <div class="col-10">
+              <input
+                type="text"
+                class="form-control"
+                aria-describedby="basic-addon3"
+                id="inputName"
+                placeholder="Costo actual: {{
+                  _currentCost | nullToString: 'costo':_allSelectsAreSelected()
+                }}"
+                disabled
+                name="_stock"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- END PAGE: BUTTONS -->
+    <div class="card-footer">
+      <div class="row">
+        <!-- CONFIRM BUTTON -->
+        <div class="col">
+          <button
+            class="btn btn-dark btn-block"
+            [disabled]="!_readyConfirmBtn"
+            (click)="_confirm(contentAdd, content)"
+          >
+            Confirmar
+          </button>
+        </div>
+
+        <!-- START NEW BUTTON -->
+        <div class="col">
+          <button
+            class="btn btn-dark btn-block"
+            (click)="_startNew(contentAdd, content)"
+          >
+            Empezar uno nuevo
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MSG-->
+<ng-template #content let-modal>
+  <div class="container-msg">
+    <div class="msg">
+      <!-- ICON -->
+      <div class="icon i"><i [ngClass]="_msg._icon"></i></div>
+
+      <!-- INFORMATION -->
+      <div class="information">
+        <p class="title">{{ _msg._title }}</p>
+        <p class="detail">{{ _msg._detail }}</p>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="btns">
+        <div *ngIf="_msg._type !== 'warning'">
+          <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
+            Ok
+          </button>
+        </div>
+        <div *ngIf="_msg._type === 'warning'">
+          <button class="btn btn-dark btn-lg" (click)="modal.close('yes')">
+            Sí
+          </button>
+          <button class="btn btn-dark btn-lg" (click)="modal.close('no')">
+            No
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- MODAL ADD-->
+<ng-template #contentAdd let-modalCreate>
+  <div class="form">
+    <!-- Title -->
+    <div class="title-form">{{ _titleAdd }}</div>
+
+    <!-- FORM -->
+    <div class="items-form">
+      <input
+        class="form-control"
+        type="text"
+        placeholder="{{ _placeHolderAdd }}"
+        name="_add"
+        minlength="{{ _getMin() }}"
+        maxlength="{{ _getMax() }}"
+        [(ngModel)]="_ngModelAdd"
+        (input)="_ngModelAddInput($event)"
+      />
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="btn-form">
+      <button
+        class="btn btn-dark btn-lg"
+        (click)="modalCreate.close('save')"
+        [disabled]="!_activeBtnNgModelAdd()"
+      >
+        Guardar
+      </button>
+      <button class="btn btn-dark btn-lg" (click)="modalCreate.close('close')">
+        Cancelar
+      </button>
+    </div>
+  </div>
+</ng-template>
