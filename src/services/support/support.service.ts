@@ -5,10 +5,21 @@ import { Injectable } from '@angular/core';
 })
 export class SupportService {
   _avatar = 'assets/img/hombre1.png';
-  _avatarName = 'David Emerson Perales';
   _idUser = '';
-
+  // _avatarName = 'David Emerson Perales';
+  _nickname = localStorage.getItem('_nickname');
+  _kindUser = localStorage.getItem('_kindUser');
   constructor() {}
+
+  _getKindUser() {
+    return this._kindUser === 'owner'
+      ? 'Dueño'
+      : this._kindUser === 'seller'
+      ? 'Vendedor'
+      : this._kindUser === 'debt-collector'
+      ? 'Cobrador'
+      : '';
+  }
 
   // VALIDATING FORMS
   // root
@@ -92,9 +103,9 @@ export class SupportService {
     if (!_patternNumber.test(_valueNumber)) {
       event.target.value = _valueNumber.replace(/[^0-9]/g, '');
       return {
+        _value: event.target.value,
         _error: true,
-        _content:
-          'Ingresar números del 0 al 9. Primer número debe ser diferente de 0',
+        _content: 'Ingresar números del 0 al 9. Primer número no debe ser 0',
       };
     }
 
@@ -103,13 +114,13 @@ export class SupportService {
     if (_patternFirstChar.test(_valueFirstChar)) {
       event.target.value = _valueFirstChar.replace(/0/, '');
       return {
+        _value: event.target.value,
         _error: true,
-        _content:
-          'Ingresar números del 0 al 9. Primer número debe ser diferente de 0',
+        _content: 'Ingresar números del 0 al 9. Primer número no debe ser 0',
       };
     }
 
-    return { _error: false, _content: '' };
+    return { _value: event.target.value, _error: false, _content: '' };
   }
 
   _validateSizeProduct(event: any): any {
@@ -117,11 +128,12 @@ export class SupportService {
     if (!pattern.test(event.target.value)) {
       event.target.value = event.target.value.replace(/[^A-ZÑ0-9]/g, '');
       return {
+        _value: event.target.value,
         _error: true,
         _content: 'Solo puede ingresar mayúsculas y números del 0 al 9',
       };
     }
-    return { _error: false, _content: '' };
+    return { _value: event.target.value, _error: false, _content: '' };
   }
 
   justLowerCaseLetters(event: any): any {
@@ -129,11 +141,12 @@ export class SupportService {
     if (!pattern.test(event.target.value)) {
       event.target.value = event.target.value.replace(/[^a-zñáéíóú]/g, '');
       return {
+        _value: event.target.value,
         _error: true,
         _content: 'Solo puede ingresar minúsculas',
       };
     }
-    return { _error: false, _content: '' };
+    return { _value: event.target.value, _error: false, _content: '' };
   }
 
   _lowerCaseLetterAndSpace(event: any): any {
@@ -141,12 +154,15 @@ export class SupportService {
     if (!pattern.test(event.target.value)) {
       event.target.value = event.target.value.replace(/[^a-zñáéíóú\s]/g, '');
       return {
+        _value: event.target.value,
         _error: true,
         _content: 'Solo puede ingresar minúsculas',
       };
     }
-    return { _error: false, _content: '' };
+    return { _value: event.target.value, _error: false, _content: '' };
   }
+
+  // _replace(_string:string,_patter:){}
 
   // Return _msg interface three last functions
 }

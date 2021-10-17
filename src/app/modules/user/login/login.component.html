@@ -1,0 +1,82 @@
+<div class="login">
+  <div class="own-card">
+    <!-- TITLE -->
+    <div class="title-section">
+      <p class="title">Iniciar Sesión</p>
+    </div>
+
+    <!-- CONTENT  -->
+    <div class="content-section">
+      <!-- NICKNAME -->
+      <div class="row m-0 p-0 mb-4 item">
+        <label for="_nickname" class="col-4 m-0 p-0 pr-3 text-right"
+          >Usuario:
+        </label>
+        <input
+          type="text"
+          class="col-8"
+          id="_nickname"
+          placeholder="Ingrese usuario aquí"
+          name="_nickname"
+          [(ngModel)]="_user._nickname"
+        />
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="row m-0 p-0 item">
+        <label for="_password" class="col-4 m-0 p-0 pr-3 text-right"
+          >Contraseña:
+        </label>
+        <input
+          type="password"
+          class="col-8"
+          id="_password"
+          placeholder="Ingrese contraseña aquí"
+          name="_password"
+          [(ngModel)]="_user._password"
+        />
+      </div>
+    </div>
+
+    <!-- LOG IN BTN -->
+    <div class="btn-section">
+      <button
+        class="btn btn-block btn-dark"
+        (click)="_login(content, contentSpiner)"
+        
+      >
+        Iniciar Sesión
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- SUCCES: DONE CORRECTLY -->
+<!-- ERROR: PRODUCT ALREADY REGISTED -->
+<ng-template #content let-modal>
+  <div class="container-msg">
+    <div class="msg">
+      <!-- ICON -->
+      <div class="icon i"><i [ngClass]="_msg._icon"></i></div>
+
+      <!-- INFORMATION -->
+      <div class="information">
+        <p class="title">{{ _msg._title }}</p>
+        <p class="detail">{{ _msg._detail }}</p>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="btns">
+        <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
+          Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentSpiner let-modal>
+  <p class="pb-3">Espere unos segundos por favor...</p>
+  <div class="spinner"></div>
+</ng-template>

@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { SaleOrderService } from '../../../../services/customer-support/sale-order/sale-order/sale-order.service';
 // import { SaleOrderModel } from 'src/models/customer-support/sale-order/model.saleOrder';
 import { SupportService } from 'src/services/support/support.service';
-import { AuthService } from '../../../../services/auth/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -16,8 +15,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private _http: HttpClient,
     private _saleOrderService: SaleOrderService,
-    public _supportService: SupportService,
-    private _authS: AuthService
+    public _supportService: SupportService
   ) {
     // console.log(this._saleOrderService._idSaleOrder);
   }
@@ -49,9 +47,5 @@ export class NavbarComponent implements OnInit {
 
   _toggleSidebar() {
     this._opened = !this._opened;
-  }
-
-  _logout() {
-    this._authS._logout();
   }
 }

@@ -1,0 +1,107 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(24, 26, 33);
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.own-card {
+  background-color: rgb(48, 52, 67);
+  /* color: white; */
+  padding: 2rem;
+  border-radius: 3%;
+  width: 25rem;
+  /* color: rgb(153, 159, 163); */
+  color: rgb(210, 209, 209);
+}
+
+.title-section {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.content-section {
+  margin-bottom: 2rem;
+  /* color: rgb(153, 159, 163); */
+  font-size: 1rem;
+  color: rgb(210, 209, 209);
+}
+
+.btn-section {
+  font-size: 1.2rem;
+  margin-top: 3rem;
+}
+
+.btn-section button {
+  font-size: 1.2rem;
+  background-color: rgb(210, 209, 209);
+  color: rgb(10, 10, 10);
+  /* font-weight: bold; */
+  /* background-color: white; */
+}
+
+input {
+  background-color: rgb(210, 209, 209);
+  /* border-radius: 10% 10%; */
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+
+
+.container-msg {
+  display: flex;
+  align-content: center;
+  justify-items: center;
+}
+
+.msg {
+  background-color: rgb(226, 230, 236);
+  border: 2px solid rgb(226, 230, 236);
+  padding: 0 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.msg p {
+  text-align: center;
+}
+
+.icon {
+  margin: 1rem 0;
+}
+
+.title {
+  font-size: 1.8rem;
+}
+
+.detail {
+  font-size: 1.1rem;
+}
+
+.btns {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.btns button {
+  margin: 0 0.5rem 1.5rem;
+  width: 5rem;
+}

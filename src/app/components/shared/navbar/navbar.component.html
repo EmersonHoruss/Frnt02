@@ -2,50 +2,21 @@
   <ng-sidebar [(opened)]="_opened" position="left" mode="push">
     <div class="text-justify mt-3 mb-2 avatar">
       <img class="avatar-img" [src]="this._supportService._avatar" />
-      <p class="avatar-name">{{ this._supportService._avatarName }}</p>
+      <p class="avatar-name mb-0 mt-1">{{ this._supportService._nickname }}</p>
+      <small class="avatar-name">{{ this._supportService._getKindUser() }}</small>
     </div>
     <nav class="dashboard-nav-list">
       <button class="btn btn-dark item" [routerLink]="['home']">
         <i class="fas fa-home"></i> &nbsp;Inicio
       </button>
-      <!-- <button
-        class="btn btn-dark item"
-        [routerLink]="['sales']"
-        (click)="createSaleOrder()"
-      >
-        <i class="fas fa-cart-arrow-down"></i> &nbsp;Registrar Pedido
-      </button>
-
-      <button class="btn btn-dark item" [routerLink]="['sales']">
-        <i class="fas fa-money-bill-alt"></i> &nbsp;Cobrar Pedido
-      </button>
-
-      <button class="btn btn-dark item" [routerLink]="['sales']">
-        <i class="fas fa-cash-register"></i> &nbsp;Ver Caja
-      </button> -->
-
-      <!-- <button
-        class="btn btn-dark item"
-        [routerLink]="['/purchase/supply-products/register-products']"
-      >
+      <button class="btn btn-dark item" [routerLink]="['register-product']">
         <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
-      </button> -->
+      </button>
 
       <button
-        class="btn btn-dark item"
-        [routerLink]="['/purchase/supply-products/product-register']"
+        class="btn btn-dark last-item mb-2 item fixed-bottom"
+        (click)="_logout()"
       >
-        <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
-      </button>
-
-      <!-- <button
-        class="btn btn-dark item"
-        [routerLink]="['/purchase/supply-products/headquarter']"
-      >
-        <i class="fas fa-store "></i> &nbsp;Sedes
-      </button> -->
-
-      <button class="btn btn-dark last-item mb-2 item fixed-bottom">
         <i class="fas fa-sign-out-alt"></i> &nbsp;Cerrar sesión
       </button>
     </nav>
@@ -58,7 +29,6 @@
         class="btn btn-dark ntb"
         *ngIf="_opened"
       >
-        <!-- <i class="fas fa-bars fa-2x"></i> -->
         <i class="fas fa-caret-left fa-3x"></i>
       </button>
       <button
@@ -66,7 +36,6 @@
         class="btn btn-dark ntb"
         *ngIf="!_opened"
       >
-        <!-- <i class="fas fa-bars fa-2x"></i> -->
         <i class="fas fa-caret-right fa-3x"></i>
       </button>
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SupportService } from '../../../../../services/support/support.service';
-import { ProductService } from '../../../../../services/product-management/product/product/product.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { MsgService } from '../../../../../services/support/msg.service';
+import { SupportService } from '../../../services/support/support.service';
+import { MsgService } from '../../../services/support/msg.service';
+import { ProductService } from '../../../services/product-management/product/product/product.service';
 
 @Component({
   selector: 'app-product-register',
@@ -20,6 +20,7 @@ export class ProductRegisterComponent implements OnInit {
         _error: false,
         _content: 'Debe tener como mínimo 5 caracteres.',
       },
+      _exist: false,
     },
     _brand: {
       _name: '',
@@ -30,6 +31,7 @@ export class ProductRegisterComponent implements OnInit {
         _error: false,
         _content: 'Debe tener como mínimo 3 caracteres.',
       },
+      _exist: false,
     },
     _size: {
       _name: '',
@@ -40,6 +42,7 @@ export class ProductRegisterComponent implements OnInit {
         _error: false,
         _content: 'Debe tener como mínimo 1 caracter.',
       },
+      _exist: false,
     },
     _stock: {
       _value: '',
@@ -50,6 +53,7 @@ export class ProductRegisterComponent implements OnInit {
         _error: false,
         _content: 'Debe tener como mínimo 1 caracter.',
       },
+      _exist: false,
     },
     _manufactured: false,
     _price: {
@@ -61,6 +65,7 @@ export class ProductRegisterComponent implements OnInit {
         _error: false,
         _content: 'Debe tener como mínimo 1 caracter.',
       },
+      _exist: false,
     },
   };
   _closeResult = '';
@@ -69,6 +74,11 @@ export class ProductRegisterComponent implements OnInit {
     {
       _type: 'error',
       _detail: 'El formulario está incompleto. Llene todos los espacios.',
+    },
+    {
+      _type: 'error',
+      _detail:
+        'Tiene errores en el ingreso de datos, relacionados con la longitud mínima requerida',
     },
   ];
 
@@ -94,57 +104,72 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   // PART: SAVE
-  _isPossibleToSave() {
-    const _booleanCategory = this._product._category._name ? true : false;
-    const _booleanSize = this._product._size._name ? true : false;
-    const _booleanBrand = this._product._brand._name ? true : false;
-    const _booleanStock =
+  _inputsNotNull() {
+    this._product._category._exist = this._product._category._name
+      ? true
+      : false;
+    this._product._size._exist = this._product._size._name ? true : false;
+    this._product._brand._exist = this._product._brand._name ? true : false;
+    this._product._stock._exist =
       this._product._stock._value && parseInt(this._product._stock._value) !== 0
         ? true
         : false;
-    const _booleanPrice =
+    this._product._price._exist =
       this._product._price._amount &&
       parseInt(this._product._price._amount) !== 0
         ? true
         : false;
 
     return (
-      _booleanBrand &&
-      _booleanCategory &&
-      _booleanPrice &&
-      _booleanSize &&
-      _booleanStock &&
-      _booleanPrice
+      this._product._category._exist &&
+      this._product._size._exist &&
+      this._product._brand._exist &&
+      this._product._stock._exist &&
+      this._product._price._exist
+    );
+  }
+
+  _inputSatisfyACMinLength() {
+    return (
+      !this._product._category._aCMinLength._error &&
+      !this._product._size._aCMinLength._error &&
+      !this._product._brand._aCMinLength._error &&
+      !this._product._stock._aCMinLength._error &&
+      !this._product._price._aCMinLength._error
     );
   }
 
   async _save(_content: any, _contentSpiner: any) {
     const _productToSave = this._formatProductToSave();
-    this._isPossibleToSave();
-    if (this._isPossibleToSave()) {
-      const _modalReference = this._modalS.open(_contentSpiner, {
-        ariaLabelledBy: 'modal-basic-title',
-        centered: true,
-        size: 'sm',
-        keyboard: false,
-        backdrop: 'static',
-      });
-      await this._productS
-        ._createWithNoId(_productToSave)
-        .then((e) => {
-          console.log(e);
-          _modalReference.close();
-          this._triggerModal(_content, e);
-        })
-        .catch((e) => {
-          console.log(e.error);
-          _modalReference.close();
-          this._triggerModal(_content, e.error);
+    this._inputsNotNull();
+    if (this._inputsNotNull()) {
+      if (this._inputSatisfyACMinLength()) {
+        const _modalReference = this._modalS.open(_contentSpiner, {
+          ariaLabelledBy: 'modal-basic-title',
+          centered: true,
+          size: 'sm',
+          keyboard: false,
+          backdrop: 'static',
         });
+        await this._productS
+          ._createWithNoId(_productToSave)
+          .then((e) => {
+            console.log(e);
+            _modalReference.close();
+            this._triggerModal(_content, e);
+          })
+          .catch((e) => {
+            console.log(e.error);
+            _modalReference.close();
+            this._triggerModal(_content, e.error);
+          });
+      } else {
+        this._triggerModal(_content, this._listMsg[1]);
+      }
     } else {
       this._triggerModal(_content, this._listMsg[0]);
     }
-    // console.log(this._product, this._isPossibleToSave());
+    // console.log(this._product, this._inputsNotNull());
   }
 
   // PART: VALIDATIONS INPUTS (CRITERIA OF ACCEPTANCE CHARS AVAILABLE)

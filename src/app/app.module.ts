@@ -30,6 +30,9 @@ import { PaySaleOrderComponent } from './components/pay-sale-order/pay-sale-orde
 import { UpdateDetailSOComponent } from './components/update-detail-so/update-detail-so.component';
 import { PruebaComponent } from './modules/components/prueba/prueba.component';
 
+import { LoginComponent } from './components/login/login.component';
+import { ProductRegisterComponent } from './components/product-register/product-register.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +47,8 @@ import { PruebaComponent } from './modules/components/prueba/prueba.component';
     PaySaleOrderComponent,
     UpdateDetailSOComponent,
     PruebaComponent,
+    LoginComponent,
+    ProductRegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,7 @@ import { PruebaComponent } from './modules/components/prueba/prueba.component';
     MatTableModule,
     SweetAlert2Module,
     SidebarModule.forRoot(),
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent],
