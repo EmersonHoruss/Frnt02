@@ -29,7 +29,7 @@ export class RegisterModifyClientComponent implements OnInit {
   ngOnInit(): void {}
 
   openModal(contenido: any) {
-    this.modal.open(contenido, { centered: true, size: 'lg' });
+    this.modal.open(contenido, { centered: true, size: '' });
   }
   submited() {}
   noValidSurname() {}

@@ -8,3 +8,8 @@
   max-height: 2rem;
   height: 2rem;
 }
+
+.modal-content{
+  width: 50% !important;
+  height: 50% !important;
+}

@@ -3,16 +3,29 @@
     <div class="text-justify mt-3 mb-2 avatar">
       <img class="avatar-img" [src]="this._supportService._avatar" />
       <p class="avatar-name mb-0 mt-1">{{ this._supportService._nickname }}</p>
-      <small class="avatar-name">{{ this._supportService._getKindUser() }}</small>
+      <small class="avatar-name">{{
+        this._supportService._getKindUser()
+      }}</small>
     </div>
     <nav class="dashboard-nav-list">
+      <!-- HOME -->
       <button class="btn btn-dark item" [routerLink]="['home']">
         <i class="fas fa-home"></i> &nbsp;Inicio
       </button>
+
+      <!-- REGISTER PRODUCT -->
       <button class="btn btn-dark item" [routerLink]="['register-product']">
         <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
       </button>
 
+      <!-- <button
+        class="btn btn-dark item"
+        [routerLink]="['sales']"
+        (click)="createSaleOrder()"
+      >
+        <i class="fas fa-cart-arrow-down"></i> &nbsp;Registrar Pedido
+      </button> -->
+      <!-- LOGOUT -->
       <button
         class="btn btn-dark last-item mb-2 item fixed-bottom"
         (click)="_logout()"

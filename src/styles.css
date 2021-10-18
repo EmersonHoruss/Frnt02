@@ -13,8 +13,8 @@
   background-color: red;
 } */
 .modal-content{
-  width: 30rem;
-  height: 18rem;
+  /* width: 30rem;
+  height: 18rem; */
   background-color: rgb(226, 230, 236);
   display: flex;
   align-items: center;

@@ -1,75 +1,21 @@
-<!-- <ng-template #message let-modalMsje>
-  <div class="modal-header">
-    <h4>Mensaje Cliente</h4>
-    <button
-      class="close"
-      aria-label="close"
-      type="button"
-      (click)="modalMsje.dismiss()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div class="modal-body">
-    <h2>Cliente Guardado Exitosamente! :D</h2>
-  </div>
-  <button>Aceptar</button>
-</ng-template> -->
-
 <ng-template #contenido let-modal>
+  <!-- TITLE -->
   <div class="modal-header">
     <h4>{{ mode }} Cliente</h4>
-    <button
-      class="close"
-      aria-label="close"
-      type="button"
-      (click)="modal.dismiss()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
   </div>
-  
+
+  <!-- CONTENT -->
   <div class="modal-body">
-    <div
-      class="alert alert-danger alert-dismissible fade show"
-      *ngIf="_msje === 0"
-      role="alert"
-    >
-      ERROR! Debe tener al menos registrado el nombre del cliente para guardarlo
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div
-      class="alert alert-info alert-dismissible fade show"
-      *ngIf="_msje === 1"
-      role="alert"
-    >
-      El cliente ha sido guardado exitosamente
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-      >
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
     <form autocomplete="off">
-      <!-- Full name -->
+      <!-- NAME -->
       <div class="form-group row">
         <div class="col-1"></div>
-        <label class="col-3 col-form-label">Nombre completo: </label>
+        <label class="col-3 col-form-label">Nombre: </label>
         <div class="col-6">
           <input
             class="form-control"
             type="text"
-            placeholder="Ingrese nombre completo del cliente"
+            placeholder="Ingrese nombre del cliente"
             ngModel
             name="_name"
             #_name="ngModel"
@@ -103,7 +49,7 @@
             pattern="[\d]{8}"
             maxlength="8"
             [class.is-invalid]="_DNI.invalid"
-            (input)="_supportService.validateDNI($event,9)"
+            (input)="_supportService.validateDNI($event, 9)"
           />
           <div class="container-small">
             <small *ngIf="_DNI.invalid" class="form-text text-danger"
