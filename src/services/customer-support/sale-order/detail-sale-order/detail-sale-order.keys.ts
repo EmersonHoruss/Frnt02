@@ -7,5 +7,8 @@ export const fullUris = {
   _update: _detailSaleOrder,
   _readByIdSO: _detailSaleOrder + '/readByIdSaleOrder/',
   _readFullByIdSO: _detailSaleOrder + '/readFullByIdSaleOrder/',
-  _deleteOneById: _detailSaleOrder + '/deleteOneById/'
+  _deleteOneById: _detailSaleOrder + '/deleteOneById/',
+  _createOrUpdate: _detailSaleOrder + '/createOrUpdate',
+  _createPlusAmount: _detailSaleOrder + '/plusAmount',
+  _updatePlusAmount: _detailSaleOrder + '/plusAmount',
 };

@@ -1,0 +1,61 @@
+tr th {
+  color: black !important;
+  border-bottom: 2px solid black;
+}
+
+.ticket {
+  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  /* align-content: center; */
+  align-items: center;
+  color: black;
+  font-family: "Courier New";
+}
+
+.row-product {
+  border-bottom: 1px solid black;
+}
+
+.row-total {
+  border-top: 2px solid black;
+  border-collapse: collapse;
+  font-weight: bold;
+}
+
+.item-ticket {
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+  text-align: center;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+._time {
+  display: flex;
+  justify-content: space-between;
+}
+
+.block p {
+  font-weight: bold;
+  /* margin-bottom: .5rem; */
+}
+
+.block {
+  margin-bottom: 0.8rem;
+}
+
+._store{
+  font-size: 1rem;
+}
+
+.ticket-footer{
+  margin-top: .5rem;
+}

@@ -31,6 +31,11 @@ export class SaleOrderService {
     return this.http.put(this._fullUris._take, _saleOrder);
   }
 
+  takeWithOutTS(_saleOrder: any) {
+    // console.log(this._fullUris)
+    return this.http.put(this._fullUris._take, _saleOrder);
+  }
+
   nonPaid() {
     // console.log(this._fullUris)
     return this.http.get(this._fullUris._nonPaid);
@@ -41,9 +46,22 @@ export class SaleOrderService {
     return this.http.put(this._fullUris._collect, _saleOrder);
   }
 
+  collectWithOutTS(_saleOrder: any) {
+    // console.log(this._fullUris)
+    return this.http.put(this._fullUris._collect, _saleOrder);
+  }
+
   paid() {
     // console.log(this._fullUris)
     return this.http.get(this._fullUris._paid);
+  }
+
+  _deliver(_so: any) {
+    return this.http.put(this._fullUris._deliver, _so);
+  }
+
+  _readWithStatus() {
+    return this.http.get(this._fullUris._readWithStatus);
   }
 
   read() {

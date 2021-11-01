@@ -49,13 +49,16 @@ export class DetailSaleOrderService {
     // console.log(_readByIdUri)
     return this.http.delete(_readByIdUri);
   }
+
+  _createOrUpdate(_createOrUpdate: any) {
+    return this.http.post(this._fullUris._createOrUpdate, _createOrUpdate);
+  }
+
+  _createPlusAmount(_detailSO: any) {
+    return this.http.post(this._fullUris._createPlusAmount, _detailSO);
+  }
+
+  _updatePlusAmount(_detailSO: any) {
+    return this.http.put(this._fullUris._updatePlusAmount, _detailSO);
+  }
 }
-
-//FUNCTIONS: Modifying global values
-// addDetailSO(){
-//   this._detailSO.push(detailSO)
-// }
-
-// resetDetailSO(){
-//   this._detailSO = []
-// }

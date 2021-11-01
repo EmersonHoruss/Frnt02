@@ -13,12 +13,14 @@
           >Usuario:
         </label>
         <input
+          autocomplete="off"
           type="text"
           class="col-8"
           id="_nickname"
           placeholder="Ingrese usuario aquí"
           name="_nickname"
           [(ngModel)]="_user._nickname"
+          maxlength="30"
         />
       </div>
 
@@ -28,12 +30,14 @@
           >Contraseña:
         </label>
         <input
+          autocomplete="off"
           type="password"
           class="col-8"
           id="_password"
           placeholder="Ingrese contraseña aquí"
           name="_password"
           [(ngModel)]="_user._password"
+          maxlength="20"
         />
       </div>
     </div>
@@ -43,7 +47,6 @@
       <button
         class="btn btn-block btn-dark"
         (click)="_login(content, contentSpiner)"
-        
       >
         Iniciar Sesión
       </button>

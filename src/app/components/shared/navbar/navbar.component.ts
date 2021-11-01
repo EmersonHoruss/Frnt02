@@ -54,4 +54,11 @@ export class NavbarComponent implements OnInit {
   _logout() {
     this._authS._logout();
   }
+
+  _withLicense() {
+    const _dataUser: any = localStorage.getItem('_dataUser');
+    const _dataUserObject: any = JSON.parse(_dataUser);
+    console.log();
+    return _dataUserObject._kindUserName;
+  }
 }

@@ -1,0 +1,217 @@
+.example-container {
+    height: 25rem;
+    overflow: auto;
+    width: 100%;
+  }
+  
+  .example-container-prices {
+    height: 15rem;
+    overflow: auto;
+    width: 100%;
+  }
+  
+  table {
+    width: inherit;
+  }
+  
+  th.mat-header-cell {
+    background-color: rgb(52, 58, 64);
+    border-right: thin solid white;
+  }
+  
+  th.mat-header-cell,
+  td.mat-cell,
+  td.mat-footer-cell {
+    text-align: center;
+  }
+  
+  td.mat-footer-cell {
+    border-bottom: 1px solid rgb(223, 223, 223);
+    background-color: rgb(121, 124, 127);
+    color: rgb(230, 230, 230);
+    font-weight: bold;
+  }
+  
+  .mat-row .mat-cell {
+    border-bottom: 1px solid transparent;
+    border-right: thin solid white;
+    cursor: pointer;
+  }
+  
+  .highlight {
+    background-color: rgb(96, 96, 96);
+    color: white;
+  }
+  
+  .locked {
+    background-color: rgb(140, 140, 140);
+    border: thin rgb(140, 140, 140);
+  }
+  
+  .container-small {
+    height: 1rem;
+    margin-top: 0.3rem;
+    max-height: 1rem;
+  }
+  
+  .container-small small {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 0.8rem !important;
+    margin-top: 0.5rem !important;
+  }
+  
+  .title-zone {
+    font-size: 1.1rem;
+    /* text-align: center; */
+    font-weight: normal !important;
+    margin-bottom: 0.3rem;
+  }
+  
+  .left {
+    background-color: rgb(226, 230, 236);
+  }
+  
+  .dad-container {
+    margin: 3rem 5rem 0 5rem !important;
+    /* padding-bottom: 3rem !important; */
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+  }
+  
+  .menu .menu-so,
+  .menu .menu-detail-so {
+    background-color: rgb(226, 230, 236);
+    width: 80%;
+  }
+  
+  .title-page {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btns {
+    /* margin-top: 1rem !important; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+  }
+  
+  .last {
+    margin-top: 2rem !important;
+  }
+  
+  .msg-error {
+    border: 0 transparent;
+    background-color: transparent;
+    color: rgb(194, 0, 0);
+    height: 3rem;
+  
+    max-height: 3rem;
+  }
+  
+  /* MODAL START */
+  .i-modal {
+    background-color: rgb(226, 230, 236);
+    color: rgb(108, 43, 45);
+    border-radius: 50%;
+  }
+  
+  .container-msg-modal {
+    display: flex;
+    align-content: center;
+    justify-items: center;
+  }
+  
+  .msg-modal {
+    background-color: rgb(226, 230, 236);
+    border: 2px solid rgb(226, 230, 236);
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .msg-modal p {
+    text-align: center;
+  }
+  
+  .icon-modal {
+    margin: 1rem 0;
+  }
+  
+  .title-modal {
+    font-size: 1.8rem;
+  }
+  
+  .detail-modal {
+    font-size: 1.1rem;
+  }
+  
+  .btns-modal {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .btns-modal button {
+    margin: 0 0.5rem 1.5rem;
+    width: 5rem;
+  }
+  
+  /* MODAL END */
+  
+  /* SPINER MODAL START */
+  .spinner-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .title-spinner {
+    padding-top: 2rem;
+    font-size: 1.2rem;
+    margin: 0 2rem;
+    text-align: center;
+  }
+  
+  .spinner {
+    border: 0.5rem solid rgba(0, 0, 0, 0.1);
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    border-left-color: rgb(52, 58, 64);
+    animation: spin 1s linear infinite;
+    margin-bottom: 2rem;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0def);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* SPINER MODAL END */
+  

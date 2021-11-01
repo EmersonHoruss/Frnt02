@@ -34,8 +34,9 @@ export class AuthService {
   }
 
   private _saveDataUser(_dataUser: any) {
-    localStorage.setItem('_nickname', _dataUser._nickname);
-    localStorage.setItem('_kindUser', _dataUser._kindUserName);
+    // localStorage.setItem('_nickname', _dataUser._nickname);
+    // localStorage.setItem('_kindUser', _dataUser._kindUserName);
+    localStorage.setItem('_dataUser', JSON.stringify(_dataUser));
   }
 
   private _saveToken(_idToken: string) {

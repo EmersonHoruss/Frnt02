@@ -10,6 +10,10 @@ import { BrandService } from 'src/services/product-management/product/brand/bran
 import { CategoryService } from 'src/services/product-management/product/category/category.service';
 import { SizeService } from 'src/services/product-management/product/size/size.service';
 // import { SaleOrderService } from '../../../services/customer-support/sale-order/sale-order/sale-order.service';
+import { ProductsSOService } from '../../services/products-so.service';
+import { SupportService } from '../../../services/support/support.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MsgService } from '../../../services/support/msg.service';
 
 @Component({
   selector: 'app-sales-detail',
@@ -17,279 +21,310 @@ import { SizeService } from 'src/services/product-management/product/size/size.s
   styleUrls: ['./sales-detail.component.css'],
 })
 export class SalesDetailComponent implements OnInit {
-  // for each headquarter u have specific products, so you need the id
-  // headquarter then to get its products
-  _idH: string = '614e0bc7c34eda1f44272b3a';
+  // TABLES
+  _products = [];
+  _productsInTable = [];
+  _prices = [];
+  _productColumn = ['_category', '_brand', '_size', '_stock'];
+  _priceColumn = ['_nameKindPrice', '_amountPrice', '_drescriptionKindPrice'];
+  _productIndex = -1;
+  _productSelected = {};
 
-  //with these arrays will fill each selected html element
-  //then user could choose one of them
-  _sizes: any = [];
-  _categories: any = [];
-  _brands: any = [];
-
-  // filter for the search
-  _selectedSize: string = 'null';
-  _selectedCategory: string = 'null';
-  _selectedBrand: string = 'null';
-
-  // result of the searching
-  _products: any = [];
-  _pricesSelectedProduct: any = [];
-
-  // table column name
-  _displayedColumnsProducts: string[] = ['_category', '_brand', '_size'];
-  _displayedColumnsPrices: string[] = [
-    '_nameKindPrice',
-    '_amountPrice',
-    '_drescriptionKindPrice',
-  ];
-
-  // selected table row
-  _selectedProduct: any = { _stock: '' };
-  _selectedPrice: any = {};
-
-  // rules
-  _couplesMinMax: any = [];
+  // INPUTS
+  _search = '';
+  _amount = {
+    _value: '',
+    _minLength: 3,
+    _maxLength: 3,
+    _required: false,
+    _typeData: ['number'],
+    _errors: {
+      _typeData: {
+        _error: false,
+        _content: 'Solo puede ingresar números.',
+      },
+      _required: {
+        _error: false,
+        _content: 'Ingrese una cantidad si va a agregar al pedido.',
+      },
+    },
+    _exist: false,
+  };
+  _msg: any;
 
   constructor(
-    private router: Router,
-    private _brandService: BrandService,
-    private _categoryService: CategoryService,
-    private _sizeService: SizeService,
-    public _productHService: ProductHeadquarterService,
-    public _pricesService: PriceService,
-    public _detailSOService: DetailSaleOrderService // public _saleOrderService: SaleOrderService
+    public _productHS: ProductHeadquarterService,
+    public _priceS: PriceService,
+    private _supportS: SupportService,
+    private _modalS: NgbModal,
+    private _msgS: MsgService,
+    private _dso: DetailSaleOrderService
   ) {
-    this.startSelectors();
-  }
-
-  startSelectors() {
-    this._brandService
-      .readByHeadquarter(this._idH)
-      .subscribe((_resultBrand) => {
-        this._brands = _resultBrand;
-      });
-
-    this._categoryService
-      .readByHeadquarter(this._idH)
-      .subscribe((_resultCategory) => {
-        this._categories = _resultCategory;
-      });
-      
-    this._sizeService.readByHeadquarter(this._idH).subscribe((_resultSize) => {
-      this._sizes = _resultSize;
-    });
+    this._getProductsInit();
   }
 
   ngOnInit(): void {}
 
-  _prepareSelectedProduct() {
-    return { _stock: '' };
+  _getProductsInit() {
+    // const _dataUser = localStorage.getItem('_dataUser');
+    const _dataUser1 = JSON.parse(
+      JSON.stringify(localStorage.getItem('_dataUser'))
+    );
+    const _dataUser2 = JSON.parse(_dataUser1);
+    const _idH = _dataUser2._headquarter._id;
+    this._productHS.redFull(_idH).subscribe((e: any) => {
+      this._products = e;
+      this._productsInTable = this._products;
+      console.log(this._products);
+    });
   }
 
-  _prepareSelectedCategory() {
-    this._selectedCategory =
-      this._selectedCategory === ''
-        ? 'null'
-        : this._selectedCategory === 'Categoria'
-        ? 'null'
-        : this._selectedCategory;
-    if (this._selectedCategory === 'null') this._products = [];
+  _matching(_string: string, _object: any) {
+    const _stringLC = _string.toLowerCase();
+    const _regExp = new RegExp(_stringLC);
+
+    const _stockString = _object._stock.toString();
+    const _brandString = _object._product._brand._name.toLowerCase();
+    const _categoryString = _object._product._category._name.toLowerCase();
+    const _sizeString = _object._product._size._name.toLowerCase();
+
+    // console.log(_regExp.test(_categoryString));
+    return _regExp.test(_categoryString)
+      ? true
+      : _regExp.test(_brandString)
+      ? true
+      : _regExp.test(_sizeString)
+      ? true
+      : _regExp.test(_stockString)
+      ? true
+      : false;
   }
 
-  _prepareSelectedBrand() {
-    this._selectedBrand =
-      this._selectedBrand === ''
-        ? 'null'
-        : this._selectedBrand === 'Marca'
-        ? 'null'
-        : this._selectedBrand;
-    if (this._selectedBrand === 'null') this._products = [];
+  // START INPUTS
+  _getProducts(_event: any) {
+    this._productIndex = -1;
+    this._productSelected = {};
+    this._prices = [];
+    const _string = _event.target.value;
+    this._productsInTable = this._products.filter((e) =>
+      this._matching(_string, e)
+    );
   }
 
-  _prepareSelectedSize() {
-    this._selectedSize =
-      this._selectedSize === ''
-        ? 'null'
-        : this._selectedSize === 'Talla'
-        ? 'null'
-        : this._selectedSize;
-    if (this._selectedSize === 'null') this._products = [];
+  _validateAmountRequired() {
+    return this._amount._value.length === 0 ? true : false;
   }
 
-  _prepareAllSelecteds() {
-    this._prepareSelectedCategory();
-    this._prepareSelectedBrand();
-    this._prepareSelectedSize();
+  _setAmount(_event: any) {
+    const _result = this._supportS._naturalNumberNo0(_event);
+    this._amount._value = _result._value;
 
-    //reseting values
-    this._productHService._selectedRowIndex = -1;
-    this._pricesService._selectedRowIndex = -1;
-    this._detailSOService._amount = 0;
-    this._selectedProduct = this._prepareSelectedProduct();
-    this._pricesSelectedProduct = [];
-    this._couplesMinMax = [];
+    //Validating the data type
+    this._amount._errors._typeData._error = _result._error;
+
+    //Validating the required
+    this._amount._errors._required._error = this._validateAmountRequired();
+  }
+  // END INPUTS
+
+  // START BUTTONS
+  _amountIsBiggerStock() {
+    const _supportProduct = JSON.parse(JSON.stringify(this._productSelected));
+    const _stock = _supportProduct._stock;
+    const _amount = parseInt(this._amount._value);
+    return _amount > _stock ? true : false;
   }
 
-  // each time user select a category, brand or size will get a
-  // list of product through this function
-  _fGetProducts() {
-    this._prepareAllSelecteds();
-    this._productHService
-      .readByBrandCategorySize(
-        this._idH,
-        this._selectedBrand,
-        this._selectedCategory,
-        this._selectedSize
-      )
-      .subscribe((_resultProductH) => {
-        this._products = _resultProductH;
-        // console.log(this._products);
-        // this._selectedRowIndex =
-      });
-    // console.log(
-    //   'COMPONENT:',
-    //   this._selectedBrand,
-    //   this._selectedCategory,
-    //   this._selectedSize
-    // );
-  }
+  _hasErrors() {
+    const _errorProduct = this._productIndex === -1 ? true : false;
+    const _errorAmount = this._amount._value.length === 0 ? true : false;
+    const _errorPrice = this._prices.length === 0 ? true : false;
+    const _amountBiggerStock = this._amountIsBiggerStock();
 
-  _fSelectedCategory(_idCategory: string) {
-    this._selectedCategory = _idCategory;
-    this._fGetProducts();
-    // console.log('Selected Category', _idCategory);
-  }
+    if (_errorAmount && _errorProduct)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'Seleccione un producto e ingrese la cantidad para guardar.',
+      };
 
-  _fSelectedBrand(_idBrand: string) {
-    this._selectedBrand = _idBrand;
-    this._fGetProducts();
-    // console.log('Selected Brand', _idBrand);
-  }
+    if (!_errorAmount && _errorProduct)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'Seleccione un producto.',
+      };
 
-  _fSelectedSize(_idSize: string) {
-    this._selectedSize = _idSize;
-    this._fGetProducts();
-    // console.log('Selected Size', _idSize);
-  }
-
-  _fGetCouplesMinMax() {
-    this._couplesMinMax = [];
-    for (const _price of this._pricesSelectedProduct) {
-      const _couple: any = [];
-      const _beginningAmount = _price._kindPrice._beginningAmount;
-      const _lastAmount = _price._kindPrice._lastAmount;
-
-      _couple.push(_beginningAmount, _lastAmount);
-      this._couplesMinMax.push(_couple);
+    if (_errorAmount && !_errorProduct) {
+      if (_errorPrice)
+        return {
+          _error: true,
+          _type: 'error',
+          _detail:
+            'No es posible agregar productos porque no se le ha asignado los precios.',
+        };
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'Ingrese la cantidad.',
+      };
     }
-    // console.log(this._couplesMinMax);
+
+    if (!_errorAmount && !_errorProduct && _errorPrice)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail:
+          'No es posible agregar productos porque no se le ha asignado los precios.',
+      };
+
+    if (_amountBiggerStock)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail:
+          'No es posible agregar productos porque la cantidad ingresada es mayor al stock del producto.',
+      };
+
+    return {
+      _error: false,
+      _type: '',
+      _detail: '',
+    };
   }
 
-  _fGetPricesSelectedProduct() {
-    // get all the prices and render in the table
-    const _idProduct = this._selectedProduct._product._id;
-    this._pricesService
-      .readFullPricesByIdProduct(_idProduct)
-      .subscribe((_prices) => {
-        this._pricesSelectedProduct = _prices;
-        this._fGetCouplesMinMax();
-        // console.log(this._couplesMinMax)
+  _getProduct() {
+    const _objProduct = JSON.parse(JSON.stringify(this._productSelected));
+    return {
+      _amount: parseInt(this._amount._value),
+      _idProductHeadquarter: _objProduct._id,
+      _idSaleOrder: localStorage.getItem('_idSO'),
+    };
+  }
+
+  _resetingValues() {
+    // Reseting Values START
+    this._productsInTable = [];
+    this._amount._value = '';
+    this._search = '';
+    this._productIndex = -1;
+    this._productSelected = {};
+    // Reseting Values END
+  }
+
+  _ifCreate(_content: any, _modalReference: any) {
+    const _product = this._getProduct();
+    this._dso._createPlusAmount(_product).subscribe((e) => {
+      _modalReference.close();
+      this._triggerModal(_content, {
+        _type: 'success',
+        _detail: 'El producto ha sido añadido exitosamente al pedido.',
+      });
+      console.log(e);
+      this._resetingValues();
+      this._getProductsInit();
+    });
+  }
+
+  _ifUpdate(_content: any, _modalReference: any) {
+    const _product = this._getProduct();
+    this._dso._updatePlusAmount(_product).subscribe((e: any) => {
+      _modalReference.close();
+      if (!e._error) {
+        this._triggerModal(_content, {
+          _type: 'success',
+          _detail: 'El producto ha sido añadido exitosamente al pedido.',
+        });
+
+        console.log(e);
+        this._resetingValues();
+        this._getProductsInit();
+      } else {
+        this._triggerModal(_content, {
+          _type: 'error',
+          _detail: 'Cantidad no disponible. Actualice la página.',
+        });
+      }
+    });
+    // console.log(this._getProduct());
+  }
+
+  _createOrUpdate(_content: any, _contentSpiner: any) {
+    const _idSaleOrder = localStorage.getItem('_idSO');
+    const _anyProductSelected = JSON.parse(
+      JSON.stringify(this._productSelected)
+    );
+    const _idProductHeadquarter = _anyProductSelected._id;
+
+    // creating modal reference
+    const _modalReference = this._modalS.open(_contentSpiner, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      size: 'sm',
+      keyboard: false,
+      backdrop: 'static',
+    });
+    //end creating modal reference
+
+    this._dso
+      ._createOrUpdate({
+        _idProductHeadquarter,
+        _idSaleOrder,
+      })
+      .subscribe((e: any) => {
+        e._create
+          ? this._ifCreate(_content, _modalReference)
+          : this._ifUpdate(_content, _modalReference);
       });
   }
+
+  _addSO(_content: any, _contentSpiner: any) {
+    const _hasErrors = this._hasErrors();
+    if (!_hasErrors._error) {
+      // create or update
+      this._createOrUpdate(_content, _contentSpiner);
+    } else {
+      this._triggerModal(_content, _hasErrors, false);
+    }
+  }
+  // END BUTTONS
 
   highlight(row: any, i: number) {
-    this._productHService._selectedRowIndex = i;
-    this._selectedProduct = row;
-    this._pricesService._selectedRowIndex = -1;
-    // console
-    this._fGetPricesSelectedProduct();
-
-    //disable confirm button
-    this._detailSOService._amount = 0;
-    // console.log('FUCKKK UU ROWW', row);
-  }
-
-  selectingRowPriceTable(value: any) {
-    // console.log(value,typeof value)
-    // console.log(this._couplesMinMax)
-    for (let i = 0; i < this._couplesMinMax.length; i++) {
-      let _couple = this._couplesMinMax[i];
-      // console.log(_couple[0] <= parseInt(value) && _couple[1] >= parseInt(value))
-      if (_couple[0] <= parseInt(value) && _couple[1] >= parseInt(value)) {
-        this._pricesService._selectedRowIndex = i;
-        break;
-      }
-      // console.log('xd');
+    console.log(localStorage.getItem('_idSO'));
+    if (i === this._productIndex) {
+      this._productIndex = -1;
+      this._productSelected = {};
+      this._prices = [];
+    } else {
+      this._productIndex = i;
+      this._productSelected = row;
+      this._prices = row._product._price;
+      // console.log(row);
     }
+    // console.log(this._productSelected);
+    // console.log(row, i);
   }
 
-  triggerConfirmButton(value: any) {
-    this.selectingRowPriceTable(value);
-
-    this._detailSOService._amount = parseInt(value);
+  // PART: MODAL
+  _openModal(_content: any, _lock: boolean) {
+    _lock
+      ? this._modalS.open(_content, {
+          ariaLabelledBy: 'modal-basic-title',
+          centered: true,
+          size: 'sm',
+          keyboard: false,
+          backdrop: 'static',
+        })
+      : this._modalS.open(_content, {
+          ariaLabelledBy: 'modal-basic-title',
+          centered: true,
+          size: 'sm',
+        });
   }
 
-  salesRedirect() {
-    //reseting values
-    this._productHService._selectedRowIndex = -1;
-    this._detailSOService._amount = 0;
-    this._couplesMinMax = [];
-    this._pricesService._selectedRowIndex = -1;
-
-    //
-    this.router.navigate(['/sales']);
+  _triggerModal(_content: any, _specificMsg: any, _lock = true) {
+    this._msgS._setMsg(_specificMsg);
+    this._msg = this._msgS._getMsg();
+    this._openModal(_content, _lock);
   }
-
-  saveDetailSO() {
-    //get price
-    const _price =
-      this._pricesSelectedProduct[this._pricesService._selectedRowIndex]
-        ._amount;
-
-    //get amount
-    const _amount = this._detailSOService._amount;
-
-    //get idProductH
-    const _idProductHeadquarter = this._selectedProduct._id;
-
-    //get idSaleOrder
-    // const _idSaleOrder = this._saleOrderService._idSaleOrder;
-    const _idSaleOrderLS = localStorage.getItem('_idSaleOrder');
-    const _idSaleOrder =
-      typeof _idSaleOrderLS === 'string' ? _idSaleOrderLS : '';
-
-    //build detail sale order
-    const _detailSO: DetailSaleOrderModel = {
-      _id: '',
-      _price,
-      _amount,
-      _idProductHeadquarter,
-      _idSaleOrder,
-    };
-
-    //save
-    this._detailSOService.create(_detailSO).subscribe((_created) => {
-      console.log(_created);
-    });
-    // console.log('detail sale order', _detailSO);
-    // console.log('price', _price, typeof _price);
-    // console.log('amount', _amount, typeof _amount);
-    // console.log('total price', typeof this._detailSOService._amount);
-    // console.log('id productH', _idProductH);
-    // console.log('id sale order', _idSaleOrder);
-  }
-
-  confirm() {
-    this.saveDetailSO();
-    this.salesRedirect();
-  }
-
-  // I have to reset the prices' values when change select's state
-  // I have to reset the index in the server too
-
-  // setAmount(amountSell: any) {
-  //   // console.log(amountSell.min);
-  //   this._detailSOService._amount = amountSell;
-  // }
 }

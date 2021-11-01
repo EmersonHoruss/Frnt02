@@ -12,7 +12,7 @@
   border-radius: 0;
   background-color: red;
 } */
-.modal-content{
+.modal-content {
   /* width: 30rem;
   height: 18rem; */
   background-color: rgb(226, 230, 236);
@@ -59,7 +59,7 @@ body {
   background-color: #e9edf4;
 }
 
-.ng-sidebar{
+.ng-sidebar {
   background: rgb(52, 58, 64);
   width: 15rem;
   /* margin: 50px 0; */
@@ -474,7 +474,7 @@ thead tr th {
   background-color: rgba(236, 238, 239, 0.3);
 }
 
-.footer{
+.footer {
   /* position: absolute; */
   /* bottom: 0; */
   /* z-index: 999; */
@@ -635,3 +635,46 @@ thead tr th {
   }
 }
 
+footer {
+  background-color: rgb(32, 33, 36);
+  color: rgb(145, 145, 145);
+  /* padding-top: 2rem; */
+}
+
+footer a {
+  color: rgb(145, 145, 145);
+}
+
+footer a:hover {
+  color: rgb(145, 145, 145);
+}
+
+/* input{
+  background-color: rgb(221, 206, 206) !important;
+  color: #343a40;
+} */
+.ain-print {
+  color: blue;
+}
+
+@media print {
+  aside,
+  .header,
+  .footer,
+  footer {
+    display: none !important;
+  }
+}
+
+/* FORCE THE ANIMATION BECAUSE IN COLLECT SALE ORDER WE USE TWO SALE ORDERS AND IT LOOKS VERY AWFUL WHEN
+IT'S OPENED OTHER MODAL  */
+.modal.fade {
+  opacity: 1;
+}
+
+.modal.fade .modal-dialog,
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
+}

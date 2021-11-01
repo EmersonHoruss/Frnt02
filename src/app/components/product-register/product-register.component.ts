@@ -94,12 +94,12 @@ export class ProductRegisterComponent implements OnInit {
   // PART: PREPARE DATA TO SAVE
   _formatProductToSave(): any {
     return {
-      _stock: parseInt(this._product._stock._value),
-      _manufactured: false,
+      // _stock: parseInt(this._product._stock._value),
+      // _manufactured: false,
       _brand: this._product._brand._name,
       _category: this._product._category._name,
       _size: this._product._size._name,
-      _price: parseInt(this._product._price._amount),
+      // _price: parseInt(this._product._price._amount),
     };
   }
 
@@ -123,9 +123,10 @@ export class ProductRegisterComponent implements OnInit {
     return (
       this._product._category._exist &&
       this._product._size._exist &&
-      this._product._brand._exist &&
-      this._product._stock._exist &&
-      this._product._price._exist
+      this._product._brand._exist 
+      // &&
+      // this._product._stock._exist &&
+      // this._product._price._exist
     );
   }
 
@@ -133,9 +134,10 @@ export class ProductRegisterComponent implements OnInit {
     return (
       !this._product._category._aCMinLength._error &&
       !this._product._size._aCMinLength._error &&
-      !this._product._brand._aCMinLength._error &&
-      !this._product._stock._aCMinLength._error &&
-      !this._product._price._aCMinLength._error
+      !this._product._brand._aCMinLength._error 
+      // &&
+      // !this._product._stock._aCMinLength._error &&
+      // !this._product._price._aCMinLength._error
     );
   }
 
@@ -175,7 +177,7 @@ export class ProductRegisterComponent implements OnInit {
   // PART: VALIDATIONS INPUTS (CRITERIA OF ACCEPTANCE CHARS AVAILABLE)
   // CATEGORY
   _validateCategory(_event: any) {
-    const _msg = this._supportS._lowerCaseLetterAndSpace(_event);
+    const _msg = this._supportS._letterAndSpace(_event);
     this._product._category._msg._error = _msg._error;
     this._product._category._msg._content = _msg._content;
     this._product._category._name = _msg._value;
@@ -184,7 +186,7 @@ export class ProductRegisterComponent implements OnInit {
 
   // BRAND
   _validateBrand(_event: any) {
-    const _msg = this._supportS.justLowerCaseLetters(_event);
+    const _msg = this._supportS._letters(_event);
     this._product._brand._msg._error = _msg._error;
     this._product._brand._msg._content = _msg._content;
     this._product._brand._name = _msg._value;

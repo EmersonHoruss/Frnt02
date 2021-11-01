@@ -1,7 +1,7 @@
 <div class="dad-container dad-container-x">
   <!-- TITLE PAGE -->
-  <div class="title-page"><strong>Cobrar Pedidos</strong></div>
-  
+  <div class="title-page"><strong>Entregar Pedidos</strong></div>
+
   <!-- TABLE DETAIL SALE ORDER-->
   <div class="search mb-3">
     <input
@@ -37,18 +37,25 @@
       <ng-container matColumnDef="_totalAmount">
         <th mat-header-cell *matHeaderCellDef>Importe</th>
         <td mat-cell *matCellDef="let _element">
-          {{ " S/ " + _returnFloatForm(_element._total) }}
+          {{ " S/ " + _element._total }}
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="_collect">
-        <th mat-header-cell *matHeaderCellDef>Cobrar</th>
+      <!-- <ng-container matColumnDef="_state">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let _element">
+          {{ _element._status }}
+        </td>
+      </ng-container> -->
+
+      <ng-container matColumnDef="_deliver">
+        <th mat-header-cell *matHeaderCellDef>Entregar</th>
         <td mat-cell *matCellDef="let _element">
           <button
             class="btn btn-dark btn-block m-0 ml-3 collect-btn"
-            (click)="_collect(_element, content, contentSpiner, _contentTicket)"
+            (click)="_deliver(_element, content, contentSpiner)"
           >
-            Cobrar
+            Entregar
           </button>
         </td>
       </ng-container>
@@ -63,7 +70,7 @@
             _salesTable.length === 0
           "
         >
-          No hay pedidos por cobrar
+          No hay pedidos por entregar
         </td>
         <td
           class="mat-cell"
@@ -84,72 +91,6 @@
 </div>
 
 <!-- MODALS -->
-<!-- TICKET -->
-<ng-template #_contentTicket>
-  <p style="font-size: 1.7rem" class="mt-4 mb-4">TICKET GENERADO</p>
-  <div
-    class="container-ticket mb-5"
-    style="border: thick solid rgb(153, 159, 163); border-style: dashed"
-  >
-    <div class="ticket" id="_ticket">
-      <div class="_store item-ticket block">
-        <p>TIENDA DE ROPA</p>
-        <p>DANIELITOS S.A.C.</p>
-      </div>
-
-      <div class="_address item-ticket block">
-        <p>Ubicación sede</p>
-        <p>Chiclayo - Lambayeque</p>
-      </div>
-
-      <div class="_ruc item-ticket block">
-        <p>R.U.C. N° 10167257793</p>
-        <p>N° de Serie 6802328</p>
-      </div>
-
-      <div class="_time item-ticket block">
-        <!-- <p class="_date">{{ _dateTime }}</p> -->
-        <!-- <p class="_clock">{{ _hourTime }}</p> -->
-      </div>
-      <table class="item-ticket">
-        <thead>
-          <tr>
-            <th class="th amount">CANT</th>
-            <th class="th product">PRODUCTO</th>
-            <th class="th price">P/U</th>
-            <th class="th subtotal">SUBTOTAL</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="row-product" *ngFor="let _item of _saleOrder._detailsFull">
-            <td class="amount">{{ _item._amount }}</td>
-            <td class="product">
-              {{
-                _item._productHeadquarter._product._category._name +
-                  " " +
-                  _item._productHeadquarter._product._brand._name +
-                  " " +
-                  _item._productHeadquarter._product._size._name
-              }}
-            </td>
-            <td class="price">{{ "S/" + _returnFloatForm(_item._price) }}</td>
-            <td class="subtotal">
-              {{ "S/" + _returnFloatForm(_item._price * _item._amount) }}
-            </td>
-          </tr>
-          <tr class="row-total">
-            <td colspan="3">TOTAL</td>
-            <td class="price">
-              {{ "S/" + _returnFloatForm(_saleOrder._total) }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="ticket-footer">¡GRACIAS POR SU COMPRA!</p>
-    </div>
-  </div>
-</ng-template>
-
 <!-- SUCCES: DONE CORRECTLY -->
 <!-- ERROR: PRODUCT ALREADY REGISTED -->
 <ng-template #content let-modal>
@@ -177,10 +118,7 @@
 <!-- LOADER: EACH TIME CONSULT DB -->
 <ng-template #contentSpiner let-modal>
   <div class="spinner-container">
-    <p class="title-spinner pb-3">
-      Generandose ticket... <br />
-      Espere unos segundos por favor...
-    </p>
+    <p class="title-spinner pb-3">Espere unos segundos por favor...</p>
     <div class="spinner"></div>
   </div>
 </ng-template>

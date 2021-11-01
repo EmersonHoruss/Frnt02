@@ -1,0 +1,44 @@
+<div class="ticket" id="_ticket">
+  <div class="_store item-ticket block">
+    <p>TIENDA DE ROPA</p>
+    <p>DANIELITOS S.A.C.</p>
+  </div>
+
+  <div class="_address item-ticket block">
+    <p>Ubicación sede</p>
+    <p>Chiclayo - Lambayeque</p>
+  </div>
+
+  <div class="_ruc item-ticket block">
+    <p>R.U.C. N° 10167257793</p>
+    <p>N° de Serie 6802328</p>
+  </div>
+
+  <div class="_time item-ticket block">
+    <p class="_date">{{ _dateTime }}</p>
+    <p class="_clock">{{ _hourTime }}</p>
+  </div>
+  <table class="item-ticket">
+    <thead>
+      <tr>
+        <th class="cantidad">CANT</th>
+        <th class="producto">PRODUCTO</th>
+        <th class="precio">S/</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-product">
+        <td class="cantidad">1</td>
+        <td class="producto">CHEETOS VERDES 80 G</td>
+        <td class="precio">$8.50</td>
+      </tr>
+      <tr class="row-total">
+        <td colspan="2">Total</td>
+        <td class="precio">$8.50</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="ticket-footer">¡GRACIAS POR SU COMPRA!</p>
+</div>
+
+<button class="oculto-impresion" (click)="imprimir()">Imprimir</button>

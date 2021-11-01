@@ -10,4 +10,6 @@ export const fullUris = {
   _collect: _saleOrderURI + '/collect',
   _paid: _saleOrderURI + '/paid',
   _read: _saleOrderURI,
+  _readWithStatus: _saleOrderURI + '/readWithStatus',
+  _deliver: _saleOrderURI + '/deliver'
 };

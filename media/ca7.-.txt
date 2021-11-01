@@ -1,0 +1,86 @@
+♠♠♠♠♠♠♠♠♠ INTERFAZ REGISTRAR PEDIDO ♠♠♠♠♠♠♠♠♠
+ACCEPTANCE CRITERIA
+Nombre: 
+	Caracteres permitidos: letras, números y espacios en blanco.
+	Longitud requerida: [1-40]
+	Requerido: sí
+	Errors cuando se tipea y no se cumple cp:
+		Solo puede ingresar letras, espacios en blanco
+	Errors caundo se tipea y la longitud es 0:
+		Es necesario que ingrese el nombre.
+	
+DNI: 
+	Caracteres permitidos: numeros
+	Longitud requerida: [8]
+	Requerido: sí
+	Errors cuando se tipea y no se cumple cp:
+		Solo puede ingresar números
+	Errors caundo se tipea y la longitud es 0:
+		Es necesario que ingrese el DNI(8 dígitos).
+RUC
+	Caracteres permitidos: numeros
+	Longitud requerida: [11]	
+	Requerido: no
+	XXXErrors cuando se tipea y no se cumple cp:
+		Solo puede ingresar números.
+	Errors caundo se tipea, y la longitud de números es de [1-10] ► mostrar mensaje: Debe ser un número con 11 digitos. Puede omitir el RUC si no es necesario
+	Errors caundo se tipea, y la longitud de números es de [0] ► mostrar mensaje: No muestra nada.
+
+Celular
+	Caracteres permitidos: numeros
+	Longitud requerida: [9]	
+	Requerido: no
+	xxxErrors cuando se tipea y no se cumple cp:
+		Solo puede ingresar números.
+	Errors caundo se tipea, y la longitud de números es de [1-8] ► mostrar mensaje: Debe ser un número con 9 digitos. Puede omitir el celular si no es necesario
+	Errors caundo se tipea, y la longitud de números es de [0] ► mostrar mensaje: No muestra nada.
+
+	LOADER
+	Por cada Operacion se debe cargar el loader primero
+
+	OPERACIÓN NO EXITOSA(ERROR)
+	1.- Si nombre y dni no estan llenados y hay productos► mostrar mensaje: Para guardar el pedido es necesario registrar el cliente(agregue nombre y DNI correctamente)
+	2.- Si nombre y dni estan llenados y no hay productos ► mostrar mensaje: no puede guardar el pedido, agregue un producto
+	3.- Si nombre y dni no estan llenados y no hay productos ► mostrar mensaje: 1 y 2
+	4.- si se agrega valores en celular y ruc entonces debe manejar los siguiente errores:
+		si no cumple con los ca del celular y se da en guardar ► mostrar mensaje: celular mal escrito
+		si no cumple con los ca del ruc y se da en guardar ► mostrar mensaje: ruc mal escrito
+		si no cumple con los ca del ruc y del celular se da en guardar ► mostrar mensaje: celular y ruc mal escritos
+
+	OPERACIÓN EXITOSA
+	5.- Si nombre y dni estan llenados y tiene al menos un producto ► mostrar mensaje: Pedido guardado exitosamente
+
+♠♠♠♠♠♠♠♠♠ INTERFAZ AGREGAR ♠♠♠♠♠♠♠♠♠
+Buscar Producto:
+	Caracteres permitidos: todo tipo
+	Longitud requerida: [0-40]
+	
+	Cuando es 0 ► mostrar todos los productos
+	Cuando es !0
+		Si existen coincidencias ► mostrar todas las coincidencias
+		Si no existen coincidencias ► mostrar en la tabla el mensaje: No se ha encontrado productos
+
+Cantidad:
+	Caracteres permitidos: números, el primero diferente de 0
+	Longitud requerida: [1-3]
+	Requerido: si
+	Errors caundo se tipea y no se cumple cp: 
+		Ingresar números del 0 al 9. Primer número no debe ser 0
+	Errors caundo se tipea y la longitud es 0: 		
+		Ingrese una cantidad si va a agregar al pedido.
+
+Añadir Pedido:
+	LOADER
+	Por cada operación se debe cargar el loader primero
+	
+	OPERACIÓN NO EXITOSA(ERRORES)
+	1.- Si no se selecciona el producto y el input de cantidad está vacío ► mostrar mensaje: Seleccione un producto e ingrese la cantidad para guardar.
+	2.- Si no se selecciona el producto y el input de cantidad no está vacío ► mostrar mensaje: Seleccione un producto.
+	3.- Si se selecciona el producto y el input de cantidad no está vacío ► mostrar mensaje: Ingrese la cantidad.
+
+	4.- Si se selecciona el producto y no se tiene los precios ► mostrar mensaje: No es posible agregar productos porque no se le ha asignado los precios	
+	5.- Si se selecciona el producto y el input de cantidad no está vacío pero la cantidad ingresada es mayor a la stock del producto seleccionado ► mostrar mensaje: No es posible agregar productos porque la cantidad ingresada es mayor al stock del producto.
+	
+
+	OPERACIÓN EXITOSA
+	6.- Si se selecciona el producto y el input de cantidad no está vacío ► mostrar mensaje: El producto ha sido añadido exitosamente al pedido.

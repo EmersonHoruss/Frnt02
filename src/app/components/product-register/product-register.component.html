@@ -13,12 +13,13 @@
           <!-- CONTENT -->
           <div class="container row m-0">
             <label
-              class="form-control col-5 mr-3 mb-0 left-input"
+              class="form-control col-3 mr-3 mb-0 left-input"
               for="_category"
               >Categoría:
             </label>
 
             <input
+              autocomplete="off"
               class="form-control col"
               type="text"
               id="_category"
@@ -33,13 +34,13 @@
 
           <!-- MSG ERROR -->
           <div class="container row m-0 msg-error mb-3">
-            <div class="col-5 mr-3"></div>
+            <div class="col-3 mr-3"></div>
             <p
               *ngIf="
                 _product._category._msg._error &&
                 _product._category._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{
                 _product._category._msg._content +
@@ -52,7 +53,7 @@
                 !_product._category._msg._error &&
                 _product._category._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._category._aCMinLength._content }}
             </p>
@@ -61,7 +62,7 @@
                 _product._category._msg._error &&
                 !_product._category._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._category._msg._content }}
             </p>
@@ -72,11 +73,12 @@
         <div>
           <!-- CONTENT -->
           <div class="container row m-0">
-            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+            <label class="form-control col-3 mr-3 mb-0 left-input" for=""
               >Marca:
             </label>
 
             <input
+              autocomplete="off"
               class="form-control col"
               type="text"
               id="_brand"
@@ -91,13 +93,13 @@
 
           <!-- MSG ERROR -->
           <div class="container row m-0 msg-error mb-3">
-            <div class="col-5 mr-3"></div>
+            <div class="col-3 mr-3"></div>
             <p
               *ngIf="
                 _product._brand._msg._error &&
                 _product._brand._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{
                 _product._brand._msg._content +
@@ -110,7 +112,7 @@
                 !_product._brand._msg._error &&
                 _product._brand._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._brand._aCMinLength._content }}
             </p>
@@ -119,7 +121,7 @@
                 _product._brand._msg._error &&
                 !_product._brand._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._brand._msg._content }}
             </p>
@@ -130,11 +132,12 @@
         <div>
           <!-- CONTENT -->
           <div class="container row m-0">
-            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+            <label class="form-control col-3 mr-3 mb-0 left-input" for=""
               >Talla:
             </label>
 
             <input
+              autocomplete="off"
               class="form-control col"
               type="text"
               id="_size"
@@ -149,12 +152,12 @@
 
           <!-- MSG ERROR -->
           <div class="container row m-0 msg-error mb-3">
-            <div class="col-5 mr-3"></div>
+            <div class="col-3 mr-3"></div>
             <p
               *ngIf="
                 _product._size._msg._error && _product._size._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{
                 _product._size._msg._content +
@@ -167,7 +170,7 @@
                 !_product._size._msg._error &&
                 _product._size._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._size._aCMinLength._content }}
             </p>
@@ -176,7 +179,7 @@
                 _product._size._msg._error &&
                 !_product._size._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._size._msg._content }}
             </p>
@@ -184,14 +187,15 @@
         </div>
 
         <!-- STOCK -->
-        <div>
-          <!-- CONTENT -->
-          <div class="container row m-0">
-            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+        <!-- <div> -->
+        <!-- CONTENT -->
+        <!-- <div class="container row m-0">
+            <label class="form-control col-3 mr-3 mb-0 left-input" for=""
               >Cantidad:
             </label>
 
             <input
+            autocomplete="off"
               class="form-control col"
               type="text"
               id="_stock"
@@ -202,17 +206,17 @@
               [(ngModel)]="_product._stock._value"
               (input)="_validateStock($event)"
             />
-          </div>
+          </div> -->
 
-          <!-- MSG ERROR -->
-          <div class="container row m-0 msg-error mb-3">
-            <div class="col-5 mr-3"></div>
+        <!-- MSG ERROR -->
+        <!-- <div class="container row m-0 msg-error mb-3">
+            <div class="col-3 mr-3"></div>
             <p
               *ngIf="
                 _product._stock._msg._error &&
                 _product._stock._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{
                 _product._stock._msg._content +
@@ -225,7 +229,7 @@
                 !_product._stock._msg._error &&
                 _product._stock._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._stock._aCMinLength._content }}
             </p>
@@ -234,22 +238,23 @@
                 _product._stock._msg._error &&
                 !_product._stock._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._stock._msg._content }}
             </p>
           </div>
-        </div>
+        </div> -->
 
         <!-- PRICE -->
-        <div>
-          <!-- CONTENT -->
-          <div class="container row m-0">
-            <label class="form-control col-5 mr-3 mb-0 left-input" for=""
+        <!-- <div> -->
+        <!-- CONTENT -->
+        <!-- <div class="container row m-0">
+            <label class="form-control col-3 mr-3 mb-0 left-input" for=""
               >Precio de compra:
             </label>
 
             <input
+            autocomplete="off"
               class="form-control col"
               type="text"
               id="_price"
@@ -261,16 +266,16 @@
               (input)="_validatePrice($event)"
             />
           </div>
-
-          <!-- MSG ERROR -->
-          <div class="container row m-0 msg-error mb-3">
-            <div class="col-5 mr-3"></div>
+ -->
+        <!-- MSG ERROR -->
+        <!-- <div class="container row m-0 msg-error mb-3">
+            <div class="col-3 mr-3"></div>
             <p
               *ngIf="
                 _product._price._msg._error &&
                 _product._price._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{
                 _product._price._msg._content +
@@ -283,7 +288,7 @@
                 !_product._price._msg._error &&
                 _product._price._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._price._aCMinLength._content }}
             </p>
@@ -292,63 +297,64 @@
                 _product._price._msg._error &&
                 !_product._price._aCMinLength._error
               "
-              class="col-6 p-0 m-0"
+              class="col-8 p-0 m-0"
             >
               {{ _product._price._msg._content }}
             </p>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <!-- END PAGE: BUTTONS -->
-      <div class="card-footer">
-        <div class="row">
-          <!-- CONFIRM BUTTON -->
-          <div class="col pr-3 pl-3">
-            <button
-              class="btn btn-dark btn-block"
-              (click)="_save(content, contentSpiner)"
-            >
-              Guardar
-            </button>
-          </div>
+        <!-- END PAGE: BUTTONS -->
+        <div class="card-footer">
+          <div class="row">
+            <!-- CONFIRM BUTTON -->
+            <div class="col pr-3 pl-3">
+              <button
+                class="btn btn-dark btn-block"
+                (click)="_save(content, contentSpiner)"
+              >
+                Guardar
+              </button>
+            </div>
 
-          <!-- START NEW BUTTON -->
-          <!-- <div class="col">
+            <!-- START NEW BUTTON -->
+            <!-- <div class="col">
           <button class="btn btn-dark btn-block">Empezar uno nuevo</button>
         </div> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- MODALS -->
-<!-- SUCCES: DONE CORRECTLY -->
-<!-- ERROR: PRODUCT ALREADY REGISTED -->
-<ng-template #content let-modal>
-  <div class="container-msg">
-    <div class="msg">
-      <!-- ICON -->
-      <div class="icon i"><i [ngClass]="_msg._icon"></i></div>
+  <!-- MODALS -->
+  <!-- SUCCES: DONE CORRECTLY -->
+  <!-- ERROR: PRODUCT ALREADY REGISTED -->
+  <ng-template #content let-modal>
+    <div class="container-msg">
+      <div class="msg">
+        <!-- ICON -->
+        <div class="icon i"><i [ngClass]="_msg._icon"></i></div>
 
-      <!-- INFORMATION -->
-      <div class="information">
-        <p class="title">{{ _msg._title }}</p>
-        <p class="detail">{{ _msg._detail }}</p>
-      </div>
+        <!-- INFORMATION -->
+        <div class="information">
+          <p class="title">{{ _msg._title }}</p>
+          <p class="detail">{{ _msg._detail }}</p>
+        </div>
 
-      <!-- BUTTONS -->
-      <div class="btns">
-        <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
-          Ok
-        </button>
+        <!-- BUTTONS -->
+        <div class="btns">
+          <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
+            Ok
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-</ng-template>
+  </ng-template>
 
-<ng-template #contentSpiner let-modal>
-  <p class="pb-3">Espere unos segundos por favor...</p>
-  <div class="spinner"></div>
-</ng-template>
+  <ng-template #contentSpiner let-modal>
+    <p class="pb-3">Espere unos segundos por favor...</p>
+    <div class="spinner"></div>
+  </ng-template>
+</div>

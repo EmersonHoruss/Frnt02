@@ -27,4 +27,8 @@ export class ProductService {
   }
 
   _read() {}
+
+  _readFull() {
+    return this._http.get(this._fullUris._readFull);
+  }
 }

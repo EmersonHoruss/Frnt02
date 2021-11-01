@@ -1,0 +1,24 @@
+Si no se selecciona productos y 
+no se tiene lleno los precios 
+enotnces mostrara mensaje de error: 
+Seleccione producto(s) y luego ingrese todos los precios.
+
+si ya tiene precios el producto y 
+se le quiere asignar 
+entonces mostrar mensaje de error: 
+No puede asignar el precio porque ya cuenta con precio.
+
+si no se selecciona producto(s) pero 
+se tiene lleno los precios 
+entonces mostrara mensaje de error: 
+Seleccione uno o más productos.
+
+Si se selecciona pero 
+no se ingresa los precios 
+entonces mostrar mensaje de error: 
+Ingrese todos los precios.
+
+Si se selecciona y 
+se ingresan los precios 
+entonces mostrar mensaje de éxito: 
+Asignación existosa.

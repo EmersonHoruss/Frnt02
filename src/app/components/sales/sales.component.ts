@@ -9,6 +9,9 @@ import { DetailSaleOrderModel } from '../../../models/customer-support/sale-orde
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PriceService } from 'src/services/product-management/price/price/price.service';
+import { Client } from './client';
+import { ProductsSOService } from '../../services/products-so.service';
+import { MsgService } from '../../../services/support/msg.service';
 
 @Component({
   selector: 'app-sales',
@@ -16,25 +19,9 @@ import { PriceService } from 'src/services/product-management/price/price/price.
   styleUrls: ['./sales.component.css'],
 })
 export class SalesComponent implements OnInit {
-  _idSaleOrder: string | null = localStorage.getItem('_idSaleOrder');
-  _detailSO: DetailSaleOrderModel = {
-    _id: 'string',
-    _price: 0,
-    _amount: 0,
-    _idProductHeadquarter: '',
-    _idSaleOrder: '',
-  };
-
-  _amount: number = 0;
-  // rules
-  _couplesMinMax: any = [];
-
-  // arrays save the data gave of service
-  _detailSOs: any = [];
-  _pricesSelectedProduct: any = [];
-
-  // table column name
-  _displayedColumnsDetailSO: string[] = [
+  _client: any;
+  _detailProducts = [];
+  _detailProductsColumns = [
     '_category',
     '_brand',
     '_size',
@@ -42,183 +29,356 @@ export class SalesComponent implements OnInit {
     '_amount',
     '_subtotal',
   ];
+  _msg: any;
 
-  _displayedColumnsPrices: string[] = [
-    '_nameKindPrice',
-    '_amountPrice',
-    '_drescriptionKindPrice',
-  ];
-
-  // _displayedColumnsDetailSOFooter: string[] = ['_category','_subtotal']
   constructor(
     private router: Router,
-    public _clientService: ClientService,
-    public _detailSOService: DetailSaleOrderService,
-    private _saleOrderService: SaleOrderService,
-    public _pricesService: PriceService,
-    public modal: NgbModal
+    private _test: ProductsSOService,
+    private _soS: SaleOrderService,
+    private _dsoS: DetailSaleOrderService,
+    private _modalS: NgbModal,
+    private _msgS: MsgService,
+    private _clientS: ClientService
   ) {
-    this.resetSelectedRowIndex();
+    const _client = new Client();
+    this._client = _client.getClient();
+    this._mngSO();
+    this._loadProducts();
+    this._mngClientLS();
   }
 
-  ngOnInit(): void {
-    this.getFullDetailSaleOrder();
+  _loadProducts() {
+    this._dsoS
+      .readFullByIdSaleOrder(localStorage.getItem('_idSO'))
+      .subscribe((e: any) => (this._detailProducts = e));
   }
 
-  getFullDetailSaleOrder() {
-    this._detailSOService
-      .readFullByIdSaleOrder(this._idSaleOrder)
-      .subscribe((_fullDetailSOs) => {
-        this._detailSOs = _fullDetailSOs;
+  _setClientLS() {
+    localStorage.setItem('_client', JSON.stringify(this._client));
+  }
+
+  _setClientLS2() {
+    const _client = JSON.parse(JSON.stringify(localStorage.getItem('_client')));
+    const _clientParsed = JSON.parse(_client);
+    // console.log(_clientParsed);
+    this._client._name._name = _clientParsed._name._name;
+    this._client._DNI._name = _clientParsed._DNI._name;
+    this._client._RUC._name = _clientParsed._RUC._name;
+    this._client._cel._name = _clientParsed._cel._name;
+  }
+
+  _resetClientLS() {
+    const _client = new Client();
+    const _clientReset = _client.getClient();
+    localStorage.setItem('_client', JSON.stringify(_clientReset));
+    this._client = _clientReset;
+  }
+
+  _mngClientLS() {
+    localStorage.getItem('_client')
+      ? this._setClientLS2()
+      : this._setClientLS();
+  }
+
+  _mngSO(_boolToResetTable = false) {
+    // console.log(localStorage.getItem('_idSO') ? true : false);
+    if (localStorage.getItem('_idSO')) {
+      //CONDITION
+      if (localStorage.getItem('_isSavedSO') === 'true') {
+        this._soS.create().subscribe((e: any) => {
+          localStorage.setItem('_idSO', e._id);
+          localStorage.setItem('_isSavedSO', 'false');
+          if (_boolToResetTable) {
+            const _idSO = localStorage.getItem('_idSO');
+            this._loadProducts();
+          }
+        });
+      }
+    } else {
+      this._soS.create().subscribe((e: any) => {
+        localStorage.setItem('_idSO', e._id);
+        localStorage.setItem('_isSavedSO', 'false');
       });
-  }
-
-  resetSelectedRowIndex() {
-    this._detailSOService._selectedRowIndex = -1;
-  }
-
-  highlight(row: any, i: number) {
-    this._detailSOService._selectedRowIndex = i;
-    this._detailSO = row;
-  }
-
-  // *** FUNCTIONALITY BUTTONS ***
-  // CLIENT MENU
-  addClient() {
-    this.router.navigate(['/search-client']);
-  }
-
-  updateClient() {}
-
-  // DETAIL SALE ORDER MENU
-  addDetailSO() {
-    this.router.navigate(['/sales-detail']);
-  }
-
-  updateDetailSO(updateDSO: any) {
-    const _detailSO: any = this._detailSO;
-    const _idProduct: any = _detailSO._productHeadquarter._product._id;
-
-    this._pricesService
-      .readFullPricesByIdProduct(_idProduct)
-      .subscribe((_prices) => {
-        this._pricesSelectedProduct = _prices;
-        this._fGetCouplesMinMax();
-
-        console.log(this._couplesMinMax);
-      });
-
-    this.modal.open(updateDSO, { centered: true, size: 'lg' });
-    // this.router.navigate(['/update-detail-so']);
-  }
-
-  deleteDetailSO() {
-    const _idDetailSO = this._detailSO._id;
-    this._detailSOService.deleteOneById(_idDetailSO).subscribe((res) => {
-      console.log(res);
-      this._detailSOs = this.getFullDetailSaleOrder();
-      console.log(this._detailSO);
-    });
-
-    this._detailSOService._selectedRowIndex = -1;
-    // this._detailSOService.deleteOneById(_idDetailSO)
-    // console.log(_idDetailSO);
-  }
-
-  // SALE ORDER MENU
-  takeSaleOrder() {
-    console.log("u're in the sales");
-    this.router.navigate(['/sales']);
-  }
-
-  deleteSaleOrder() {
-    this._saleOrderService.delete().subscribe((_msje) => {
-      console.log(_msje);
-      // We can get better down code because we can just call
-      // a method and make the query and save in the local storage
-      // the sale order's id
-      // SEE THE NAVBAR COMPONENT, IT HAPPENS THE SAME(include
-      // a validation)
-      this._saleOrderService.create().subscribe((resp) => {
-        console.log('sale order created', resp);
-        const _idSaleOrder = JSON.parse(JSON.stringify(resp))._id;
-        localStorage.setItem('_idSaleOrder', _idSaleOrder);
-        // this.router.navigate(['/sales']);
-      });
-      this._detailSOs = [];
-      this._clientService.resetClient();
-    });
-
-    // console.log('a')
-  }
-
-  // *** MODALS ***
-  // CLIENT
-
-  // DETAIL SALE ORDER
-  saveUpdating(_amountSell: any) {
-    console.log(_amountSell);
-  }
-
-  // *** DISABLING BUTTONS ***
-  // CLIENT MENU
-  disableClientButton() {
-    // console.log('LENGHT',this._clientService._client._name.length)
-    return this._clientService._client._name.length === 0 ? true : false;
-  }
-
-  // DETAIL SALE ORDER MENU
-  disableDetailSOButton() {
-    return this._detailSOService._selectedRowIndex === -1 ? true : false;
-  }
-
-  // SALE ORDER MENU
-  disableSOButton() {
-    // console.log(this._detailSOs.length);
-    return this._detailSOs.length === 0 ? true : false;
-  }
-  // _totalCost: number = 0;
-  // OTHER
-  getTotalCost() {
-    let _totalCost = 0;
-    for (const _detailSO of this._detailSOs) {
-      const _subtotalCost = _detailSO._price * _detailSO._amount;
-      _totalCost += _subtotalCost;
     }
-    return _totalCost;
   }
 
-  _fGetCouplesMinMax() {
-    this._couplesMinMax = [];
-    for (const _price of this._pricesSelectedProduct) {
-      const _couple: any = [];
-      const _beginningAmount = _price._kindPrice._beginningAmount;
-      const _lastAmount = _price._kindPrice._lastAmount;
+  ngOnInit(): void {}
 
-      _couple.push(_beginningAmount, _lastAmount);
-      this._couplesMinMax.push(_couple);
-    }
-    // console.log(this._couplesMinMax);
+  // ACCEPTANCE CRITERIA SAVE
+  _isPossibleSaveInputRequired() {
+    const _isPossibleDNI = !this._validateDNIRequired();
+    const _isPossibleName = !this._validateNameRequired();
+    return _isPossibleDNI && _isPossibleName;
   }
 
-  getDetailSO() {
-    const _detailSO: any = this._detailSO;
-    const _category: any =
-      _detailSO._productHeadquarter._product._category._name;
-    // const _brand: any = _detailSO._productHeadquarter._product._brand._name;
-    const _brand: any = 'CAMBIAME ANTES DE SUBIR';
-    const _size: any = _detailSO._productHeadquarter._product._size._name;
-    const _amount: any = _detailSO._amount;
-    const _stock: any = _detailSO._productHeadquarter._stock;
-    const _maxRange: any = _stock + _amount;
-    
-    return {
-      _category,
-      _brand,
-      _size,
-      _amount,
-      _stock,
-      _maxRange,
+  _hasErrors() {
+    const _errorClient = !this._isPossibleSaveInputRequired();
+
+    const _errorDetailProduct =
+      this._detailProducts.length === 0 ? true : false;
+    // console.log(_errorNameClient, _errorDNIClient, _errorDetailProduct);
+
+    if (_errorClient && _errorDetailProduct)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail:
+          'Para guardar el pedido es necesario registrar el cliente(agregue nombre y DNI correctamente). No puede guardar el pedido, agregue un producto',
+      };
+
+    if (!_errorClient && _errorDetailProduct)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'No puede guardar el pedido, agregue un producto',
+        _order: 1,
+      };
+
+    if (_errorClient && !_errorDetailProduct)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail:
+          'Para guardar el pedido es necesario registrar el cliente(agregue nombre y DNI correctamente)',
+      };
+
+    return { _error: false, _type: '', _detail: '' };
+  }
+
+  _isPossibleSaveInputNotRequired() {
+    if (!this._isPossibleSaveRUC() && !this._isPossibleSaveCel())
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'Celular y RUC mal escrito.',
+      };
+
+    if (!this._isPossibleSaveCel())
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'Celular mal escrito.',
+      };
+
+    if (!this._isPossibleSaveRUC())
+      return {
+        _error: true,
+        _type: 'error',
+        _detail: 'RUC mal escrito.',
+      };
+
+    return { _error: false, _type: '', _detail: '' };
+  }
+
+  _saveAfterNoErrors(_content: any, _contentSpiner: any) {
+    const _client = this._createFormatClient();
+    const _successMsg = {
+      _type: 'success',
+      _detail: 'Pedido guardado exitosamente',
     };
+    // creating modal reference
+    const _modalReference = this._modalS.open(_contentSpiner, {
+      ariaLabelledBy: 'modal-basic-title',
+      centered: true,
+      size: 'sm',
+      keyboard: false,
+      backdrop: 'static',
+    });
+    //end creating modal reference
+
+    this._clientS.create(_client).subscribe((e: any) => {
+      const _idClient = e._id;
+      const _so = this._createFormatTakeSO(_idClient);
+      this._soS.takeWithOutTS(_so).subscribe((e) => {
+        _modalReference.close();
+        localStorage.setItem('_isSavedSO', 'true');
+        this._resetAll();
+        this._triggerModal(_content, _successMsg, false);
+      });
+    });
+  }
+
+  _save(_content: any, _contentSpiner: any) {
+    // console.log(this._isPossibleSaveInputRequired())
+    const _hasErrors = this._hasErrors();
+    if (!_hasErrors._error) {
+      const _hasMoreErrors = this._isPossibleSaveInputNotRequired();
+      if (!_hasMoreErrors._error) {
+        console.log('ready to save');
+        this._saveAfterNoErrors(_content, _contentSpiner);
+        //save first the client, and into the susbscribe
+        //save the sale(userheadquarter as idseller and idclient)
+      } else {
+        this._triggerModal(_content, _hasMoreErrors, false);
+        // console.log('has errors in hasmoreerrors');
+        // console.log(_hasMoreErrors);
+      }
+    } else {
+      this._triggerModal(_content, _hasErrors, false);
+      // console.log('has errors in has errors');
+    }
+    // console.log(this._isPossibleSaveInputNotRequired());
+    // console.log(this._client);
+    // localStorage.setItem('_idSO', e._id);
+
+    // localStorage.setItem('_isSavedSO', 'true');
+    // this._mngSO();
+    // this._resetClientLS();
+  }
+
+  // ACCEPTANCE CRITERIA INPUTS
+  // VALIDATING NAME
+  _validateNameRequired() {
+    return this._client._name._name.length === 0 ? true : false;
+  }
+
+  _validateName(_event: any) {
+    const _result = this._client._name._errors._typeData._function(_event);
+    this._client._name._name = _result._value;
+
+    // Validating the data type
+    this._client._name._errors._typeData._error = _result._error;
+
+    // Validating the required
+    this._client._name._errors._required._error = this._validateNameRequired();
+
+    this._setClientLS();
+  }
+
+  // VALIDATING DNI
+  _validateDNIRequired() {
+    return this._client._DNI._name.length != this._client._DNI._maxLength
+      ? true
+      : false;
+  }
+
+  _validateDNI(_event: any) {
+    const _result = this._client._DNI._errors._typeData._function(_event);
+    this._client._DNI._name = _result._value;
+    // console.log(this._client._DNI);
+    // Validating the data type
+    this._client._DNI._errors._typeData._error = _result._error;
+
+    // Validating the required
+    this._client._DNI._errors._required._error = this._validateDNIRequired();
+
+    this._setClientLS();
+  }
+
+  // VALIDATING RUC
+  _isPossibleSaveRUC() {
+    return this._client._RUC._name.length === 11 ||
+      this._client._RUC._name.length === 0
+      ? true
+      : false;
+  }
+
+  _validateRUC(_event: any) {
+    const _result = this._client._RUC._errors._typeData._function(_event);
+    this._client._RUC._name = _result._value;
+
+    // Validating the data type
+    this._client._RUC._errors._typeData._error = _result._error;
+    this._client._RUC._errors._typeData._content = _result._content;
+    if (
+      this._client._RUC._name.length === 11 ||
+      this._client._RUC._name.length === 0
+    )
+      this._client._RUC._errors._typeData._error = false;
+    this._setClientLS();
+    console.log(this._client);
+  }
+
+  // VALIDATING CEL
+  _isPossibleSaveCel() {
+    return this._client._cel._name.length === 9 ||
+      this._client._cel._name.length === 0
+      ? true
+      : false;
+  }
+
+  _validateCel(_event: any) {
+    const _result = this._client._cel._errors._typeData._function(_event);
+    this._client._cel._name = _result._value;
+    // console.log(_result)
+    // Validating the data type
+    this._client._cel._errors._typeData._error = _result._error;
+    this._client._cel._errors._typeData._content = _result._content;
+    if (
+      this._client._cel._name.length === 9 ||
+      this._client._cel._name.length === 0
+    )
+      this._client._cel._errors._typeData._error = false;
+    this._setClientLS();
+  }
+
+  getTotalCost() {
+    let _total = 0;
+    this._detailProducts.forEach(
+      (e: any) => (_total += e._price * parseInt(e._amount))
+    );
+    return _total;
+  }
+
+  // PART: MODAL START
+  _openModal(_content: any, _lock: boolean) {
+    _lock
+      ? this._modalS.open(_content, {
+          ariaLabelledBy: 'modal-basic-title',
+          centered: true,
+          size: 'sm',
+          keyboard: false,
+          backdrop: 'static',
+        })
+      : this._modalS.open(_content, {
+          ariaLabelledBy: 'modal-basic-title',
+          centered: true,
+          size: 'sm',
+        });
+  }
+
+  _triggerModal(_content: any, _specificMsg: any, _lock = true) {
+    this._msgS._setMsg(_specificMsg);
+    this._msg = this._msgS._getMsg();
+    this._openModal(_content, _lock);
+  }
+  // PART: MODAL END
+
+  // PART: CREATING FORMATS START
+  _createFormatClient() {
+    return {
+      _name: this._client._name._name,
+      _DNI: this._client._DNI._name,
+      _cel: this._client._cel._name,
+      _RUC: this._client._RUC._name,
+    };
+  }
+
+  _createFormatTakeSO(_idClient: string) {
+    const _dataUser1 = JSON.parse(
+      JSON.stringify(localStorage.getItem('_dataUser'))
+    );
+    const _dataUser2 = JSON.parse(_dataUser1);
+    const _idSeller = _dataUser2._userHeadquarter._idUser;
+
+    return {
+      _id: localStorage.getItem('_idSO'),
+      _idClient,
+      _idSeller,
+    };
+  }
+  // PART: CREATING FORMATS END
+
+  // PART: RESETING START
+  _resetAll() {
+    this._mngSO(true);
+    this._resetClientLS();
+  }
+  // PART: RESETING END
+
+  _returnFloatForm(_number: number) {
+    const _regExp = /\./;
+    const _string = _number.toString();
+    return _regExp.test(_string) ? _string : _string + '.00';
   }
 }

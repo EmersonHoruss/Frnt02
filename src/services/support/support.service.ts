@@ -124,39 +124,47 @@ export class SupportService {
   }
 
   _validateSizeProduct(event: any): any {
-    const pattern = /^[A-ZÑ0-9]*$/;
+    const pattern = /^[A-Za-zñáéíóúñÑ0-9]*$/;
     if (!pattern.test(event.target.value)) {
-      event.target.value = event.target.value.replace(/[^A-ZÑ0-9]/g, '');
+      event.target.value = event.target.value.replace(
+        /[^A-Za-zñáéíóúñÑ0-9]/g,
+        ''
+      );
       return {
         _value: event.target.value,
         _error: true,
-        _content: 'Solo puede ingresar mayúsculas y números del 0 al 9',
+        _content: 'Solo puede ingresar letras y números',
       };
     }
     return { _value: event.target.value, _error: false, _content: '' };
   }
 
-  justLowerCaseLetters(event: any): any {
-    const pattern = /^[a-zñáéíóú]*$/;
+  // justLowerCaseLetters(event: any): any {
+  _letters(event: any): any {
+    const pattern = /^[A-ZÑa-zñáéíóú]*$/;
     if (!pattern.test(event.target.value)) {
-      event.target.value = event.target.value.replace(/[^a-zñáéíóú]/g, '');
+      event.target.value = event.target.value.replace(/[^A-ZÑa-zñáéíóú]/g, '');
       return {
         _value: event.target.value,
         _error: true,
-        _content: 'Solo puede ingresar minúsculas',
+        _content: 'Solo puede ingresar letras',
       };
     }
     return { _value: event.target.value, _error: false, _content: '' };
   }
 
-  _lowerCaseLetterAndSpace(event: any): any {
-    const pattern = /^[a-zñáéíóú\s]*$/;
+  // _lowerCaseLetterAndSpace(event: any): any {
+  _letterAndSpace(event: any): any {
+    const pattern = /^[a-zA-ZÑñáéíóú\s]*$/;
     if (!pattern.test(event.target.value)) {
-      event.target.value = event.target.value.replace(/[^a-zñáéíóú\s]/g, '');
+      event.target.value = event.target.value.replace(
+        /[^a-zA-ZÑñáéíóú\s]/g,
+        ''
+      );
       return {
         _value: event.target.value,
         _error: true,
-        _content: 'Solo puede ingresar minúsculas',
+        _content: 'Solo puede ingresar letras y espacios en blanco',
       };
     }
     return { _value: event.target.value, _error: false, _content: '' };
@@ -165,4 +173,69 @@ export class SupportService {
   // _replace(_string:string,_patter:){}
 
   // Return _msg interface three last functions
+
+  _numbers(event: any): any {
+    const _patternNumber = /^[0-9]*$/;
+    const _valueNumber = event.target.value;
+    if (!_patternNumber.test(_valueNumber)) {
+      event.target.value = _valueNumber.replace(/[^0-9]/g, '');
+      return {
+        _value: event.target.value,
+        _error: true,
+        _content: 'Solo puede ingresar números.',
+      };
+    }
+
+    return { _value: event.target.value, _error: false, _content: '' };
+  }
+
+  _RUC(event: any): any {
+    const _patternNumber = /^[0-9]*$/;
+    // const _patternNumber = /^[0-9]}$/;
+    const _valueNumber = event.target.value;
+    if (!_patternNumber.test(_valueNumber)) {
+      event.target.value = _valueNumber.replace(/[^0-9]/g, '');
+      return {
+        _value: event.target.value,
+        _error: true,
+        _content:
+          'Debe ser un número con 11 digitos. Puede omitir el RUC si no es necesario',
+      };
+    }
+
+    return { _value: event.target.value, _error: false, _content: '' };
+  }
+
+  _cel(event: any): any {
+    const _patternNumber = /^[0-9]*$/;
+    // const _patternNumber = /^[0-9]}$/;
+    const _valueNumber = event.target.value;
+    if (!_patternNumber.test(_valueNumber)) {
+      event.target.value = _valueNumber.replace(/[^0-9]/g, '');
+      return {
+        _value: event.target.value,
+        _error: true,
+        _content:
+          'Debe ser un número con 9 digitos. Puede omitir el celular si no es necesario',
+      };
+    }
+
+    return { _value: event.target.value, _error: false, _content: '' };
+  }
+
+  _price(event: any): any {
+    const _patternNumber = /^[0-9.]*$/;
+    const _valueNumber = event.target.value;
+    if (!_patternNumber.test(_valueNumber)) {
+      // console.log('error');
+      event.target.value = _valueNumber.replace(/[^0-9.]/g, '');
+      return {
+        _value: event.target.value,
+        _error: true,
+        _content: 'Números enteros o decimal positivo',
+      };
+    }
+    // console.log('no error');
+    return { _value: event.target.value, _error: false, _content: '' };
+  }
 }

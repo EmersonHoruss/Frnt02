@@ -7,24 +7,165 @@
         this._supportService._getKindUser()
       }}</small>
     </div>
+
     <nav class="dashboard-nav-list">
       <!-- HOME -->
       <button class="btn btn-dark item" [routerLink]="['home']">
         <i class="fas fa-home"></i> &nbsp;Inicio
       </button>
 
-      <!-- REGISTER PRODUCT -->
-      <button class="btn btn-dark item" [routerLink]="['register-product']">
-        <i class="fas fa-shopping-bag"></i> &nbsp;Registrar Productos
-      </button>
+      <!-- SUPPLY PRODUCTS -->
+      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() === 'owner'">
+        <button
+          href="#"
+          class="btn btn-dark item dashboard-nav-dropdown-toggle"
+        >
+          <i class="fas fa-hand-holding-usd"></i>
+          Proveer Productos
+        </button>
+        <div class="dashboard-nav-dropdown-menu">
+          <!-- REGISTER PRODUCTS -->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            [routerLink]="['register-product']"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Registrar Productos</p>
+          </button>
 
-      <!-- <button
-        class="btn btn-dark item"
-        [routerLink]="['sales']"
-        (click)="createSaleOrder()"
-      >
-        <i class="fas fa-cart-arrow-down"></i> &nbsp;Registrar Pedido
-      </button> -->
+          <!-- ASSIGN PRICES TO PRODUCTS -->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            [routerLink]="['assign-prices']"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Asignar Precios a Productos</p>
+          </button>
+
+          <!-- ASSIGN PRODUCTS TO HEADQUARTER-->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            [routerLink]="['assign-products']"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Asignar Productos a Sede</p>
+          </button>
+
+          <!-- BUY PRODUCTS-->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Comprar Productos</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- SALE -->
+      <div class="dashboard-nav-dropdown">
+        <button
+          href="#"
+          class="btn btn-dark item dashboard-nav-dropdown-toggle"
+        >
+          <i class="fas fa-hand-holding-usd"></i> &nbsp; Ventas
+        </button>
+        <div class="dashboard-nav-dropdown-menu">
+          <!-- TAKE SALE ORDER -->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            [routerLink]="['sales']"
+            *ngIf="_withLicense() !== 'debt-collector'"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Registrar Pedidos</p>
+          </button>
+
+          <!-- SEE NON-PAID ORDERS -->
+          <!-- <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Ver Pedidos Pagados</p>
+          </button> -->
+
+          <!-- COLLECT ORDERS -->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            *ngIf="_withLicense() !== 'seller'"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2" [routerLink]="['pay-sale-order']">
+              Cobrar Pedidos
+            </p>
+          </button>
+
+          <!-- COLLECT ORDERS -->
+          <button
+            class="btn sub-item dashboard-nav-dropdown-item"
+            *ngIf="_withLicense() !== 'debt-collector'"
+          >
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2" [routerLink]="['deliver-sale']">
+              Entregar pedidos
+            </p>
+          </button>
+        </div>
+      </div>
+
+      <!-- CASH MANAGEMENT -->
+      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() !== 'seller'">
+        <button
+          href="#"
+          class="btn btn-dark item dashboard-nav-dropdown-toggle"
+        >
+          <i class="fas fa-hand-holding-usd"></i> &nbsp; Caja
+        </button>
+        <div class="dashboard-nav-dropdown-menu">
+          <!-- OPEN CASH -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Abrir Caja</p>
+          </button>
+
+          <!-- SEE CASH -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Ver Caja</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- REPORTS -->
+      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() === 'owner'">
+        <button
+          href="#"
+          class="btn btn-dark item dashboard-nav-dropdown-toggle"
+        >
+          <i class="fas fa-hand-holding-usd"></i> &nbsp; Reportes
+        </button>
+        <div class="dashboard-nav-dropdown-menu">
+          <!-- SALES ORDERS BY SELLER -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Ventas por Vendedor</p>
+          </button>
+
+          <!-- PRODUCTS BY HOLIDAYS -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Productos por Fechas Festivas</p>
+          </button>
+
+          <!-- PRODUCTS BY SEASONS -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Productos por Estación</p>
+          </button>
+
+          <!-- PROFITS -->
+          <button class="btn sub-item dashboard-nav-dropdown-item">
+            <i class="fas fa-cart-arrow-down"></i>
+            <p class="p-0 m-0 ml-2">Ganancias</p>
+          </button>
+        </div>
+      </div>
+
       <!-- LOGOUT -->
       <button
         class="btn btn-dark last-item mb-2 item fixed-bottom"
@@ -65,3 +206,68 @@
     <app-footer></app-footer>
   </div>
 </ng-sidebar-container>
+
+<!-- 
+  
+Proveer Productos
+.- Registrar Productos		
+.- Asignar Precios a Producto	☼
+.- Asignar productos a sede	☼
+.- Comprar productos		☼
+XXX.- Ver Productos no asignados	☼
+
+Venta
+.- Tomar Pedido			☼(5d)
+.- Ver Pedidos Pagados		☼(5d)
+.- Cobrar Pedido		(2d)
+
+
+Tomar Pedidos
+.- Registrar Pedido		☼(5d)
+.- Ver Pedidos Pagados		☼(5d)
+
+Cobrar Pedidos
+.- Ver Pedidos no cobrados	(3d)
+.- Cobrar Pedido		(2d)
+
+Manejar Caja
+.- Apertura caja		(2d)
+.- Cierre caja			(2d)
+.- Ver caja			
+
+Reportes
+.- Ventas Por Vendedor		
+.- Productos por Fechas Festi	(5d)
+.- Productos por estación	
+.- Ver Ganancias		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Juan Carlos Benítez Herrera
+Chiclayo 
+Almirante billar 398
+
+
+
+
+
+
+
+
+
+
+
+
+		 -->
