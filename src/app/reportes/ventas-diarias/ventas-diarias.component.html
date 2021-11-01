@@ -1,0 +1,26 @@
+<div class="container w-100 text-center mt-3">
+  <h3>VENTAS DIARIAS</h3>
+
+  <div class="px-3">
+
+    <table class="table container">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Sede</th>
+          <th scope="col">Cantidad</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reporteSede of reporteSedes">
+          <th scope="row">{{reporteSede.sede}}</th>
+          <td scope="row">{{reporteSede.cantidad}}</td>
+
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+</div>

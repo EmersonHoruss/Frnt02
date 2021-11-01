@@ -15,7 +15,7 @@
       </button>
 
       <!-- SUPPLY PRODUCTS -->
-      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() === 'owner'">
+      <div class="dashboard-nav-dropdown" >
         <button
           href="#"
           class="btn btn-dark item dashboard-nav-dropdown-toggle"
@@ -72,7 +72,7 @@
           <button
             class="btn sub-item dashboard-nav-dropdown-item"
             [routerLink]="['sales']"
-            *ngIf="_withLicense() !== 'debt-collector'"
+
           >
             <i class="fas fa-cart-arrow-down"></i>
             <p class="p-0 m-0 ml-2">Registrar Pedidos</p>
@@ -87,7 +87,7 @@
           <!-- COLLECT ORDERS -->
           <button
             class="btn sub-item dashboard-nav-dropdown-item"
-            *ngIf="_withLicense() !== 'seller'"
+
           >
             <i class="fas fa-cart-arrow-down"></i>
             <p class="p-0 m-0 ml-2" [routerLink]="['pay-sale-order']">
@@ -98,7 +98,7 @@
           <!-- COLLECT ORDERS -->
           <button
             class="btn sub-item dashboard-nav-dropdown-item"
-            *ngIf="_withLicense() !== 'debt-collector'"
+
           >
             <i class="fas fa-cart-arrow-down"></i>
             <p class="p-0 m-0 ml-2" [routerLink]="['deliver-sale']">
@@ -109,7 +109,7 @@
       </div>
 
       <!-- CASH MANAGEMENT -->
-      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() !== 'seller'">
+      <div class="dashboard-nav-dropdown" >
         <button
           href="#"
           class="btn btn-dark item dashboard-nav-dropdown-toggle"
@@ -132,7 +132,7 @@
       </div>
 
       <!-- REPORTS -->
-      <div class="dashboard-nav-dropdown" *ngIf="_withLicense() === 'owner'">
+      <div class="dashboard-nav-dropdown" >
         <button
           href="#"
           class="btn btn-dark item dashboard-nav-dropdown-toggle"
@@ -143,7 +143,7 @@
           <!-- SALES ORDERS BY SELLER -->
           <button class="btn sub-item dashboard-nav-dropdown-item">
             <i class="fas fa-cart-arrow-down"></i>
-            <p class="p-0 m-0 ml-2">Ventas por Vendedor</p>
+            <p class="p-0 m-0 ml-2" routerLink="ventas-diarias">Ventas diarias</p>
           </button>
 
           <!-- PRODUCTS BY HOLIDAYS -->
@@ -155,7 +155,7 @@
           <!-- PRODUCTS BY SEASONS -->
           <button class="btn sub-item dashboard-nav-dropdown-item">
             <i class="fas fa-cart-arrow-down"></i>
-            <p class="p-0 m-0 ml-2">Productos por Estación</p>
+            <p class="p-0 m-0 ml-2" routerLink="ventas-estacion">Productos por Estación</p>
           </button>
 
           <!-- PROFITS -->
@@ -207,10 +207,10 @@
   </div>
 </ng-sidebar-container>
 
-<!-- 
-  
+<!--
+
 Proveer Productos
-.- Registrar Productos		
+.- Registrar Productos
 .- Asignar Precios a Producto	☼
 .- Asignar productos a sede	☼
 .- Comprar productos		☼
@@ -233,13 +233,13 @@ Cobrar Pedidos
 Manejar Caja
 .- Apertura caja		(2d)
 .- Cierre caja			(2d)
-.- Ver caja			
+.- Ver caja
 
 Reportes
-.- Ventas Por Vendedor		
+.- Ventas Por Vendedor
 .- Productos por Fechas Festi	(5d)
-.- Productos por estación	
-.- Ver Ganancias		
+.- Productos por estación
+.- Ver Ganancias
 
 
 
@@ -256,7 +256,7 @@ Reportes
 
 
 Juan Carlos Benítez Herrera
-Chiclayo 
+Chiclayo
 Almirante billar 398
 
 

@@ -14,35 +14,37 @@ import { TicketComponent } from './components/ticket/ticket.component';
 import { DeliverSaleComponent } from './components/deliver-sale/deliver-sale.component';
 import { AssignPricesComponent } from './components/assign-prices/assign-prices.component';
 import { AssignProductsComponent } from './components/assign-products/assign-products.component';
+import { VentasDiariasComponent } from './reportes/ventas-diarias/ventas-diarias.component';
+import { VentasEstacionComponent } from './reportes/ventas-estacion/ventas-estacion.component';
 
 const APP_ROUTES: Routes = [
-  { path: '', component: LoginComponent, canActivate: [NoLoginGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  { path: 'sales', component: SalesComponent, canActivate: [AuthGuard] },
+  { path: '', component: LoginComponent},
+  { path: 'home', component: HomeComponent},
+  { path: 'sales', component: SalesComponent },
   {
     path: 'sales-detail',
     component: SalesDetailComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'assign-prices',
     component: AssignPricesComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'assign-products',
     component: AssignProductsComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'ticket',
     component: TicketComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   {
     path: 'deliver-sale',
     component: DeliverSaleComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
   // {
   //   path: 'search-client',
@@ -52,14 +54,26 @@ const APP_ROUTES: Routes = [
   {
     path: 'pay-sale-order',
     component: PaySaleOrderComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
-  { path: 'login', component: LoginComponent, canActivate: [NoLoginGuard] },
+  { path: 'login', component: LoginComponent},
   {
     path: 'register-product',
     component: ProductRegisterComponent,
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
   },
+  {
+    path: 'ventas-diarias',
+    component: VentasDiariasComponent
+  },
+  // {
+  //   path: 'ventas-fecha-festiva'
+  // },
+  {
+    path: 'ventas-estacion',
+    component: VentasEstacionComponent
+  },
+
   // {
   //   path: 'purchase',
   //   loadChildren: () =>

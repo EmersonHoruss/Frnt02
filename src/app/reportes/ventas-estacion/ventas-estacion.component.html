@@ -1,0 +1,71 @@
+<div class="container w-100 text-center mt-3">
+  <h3>VENTAS DE PRODUCTOS POR ESTACION</h3>
+
+  <div class="px-3">
+    <div class="w-100 d-flex flex-row-reverse mb-2">
+
+      <!-- <div style="display: block;">
+
+        Años
+        <ng-select style="width: 100px;" [items]="anios"
+        (ngModelChange)="changeAnios()" bindLabel="name" bindValue="id" [(ngModel)]="selectedAnio">
+        </ng-select>
+      </div> -->
+      <div style="display: flex; align-items:flex-end; text-align: center;">
+        <button class="btn btn-primary" [disabled]="!selectedEstacion || !selectedSede" (click) = "elegir()">Elegir</button>
+      </div>
+      <div style="display: block;">
+
+        Sedes
+        <ng-select style="width: 100px;" [items]="sedes"
+        (change)="changeSedes()" bindLabel="name" bindValue="id" [(ngModel)]="selectedSede">
+        </ng-select>
+      </div>
+
+      <div style="display: block;">
+
+        Estaciones
+        <ng-select style="width: 100px;" [items]="estaciones"
+        (ngModelChange)="changeEstaciones()" bindLabel="name" bindValue="id" [(ngModel)]="selectedEstacion">
+        </ng-select>
+      </div>
+
+
+    </div>
+
+
+    <div *ngIf="(selectedEstacion && selectedSede && mostrarTabla); else noContent">
+
+      <table class="table container" >
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Sede</th>
+
+          </tr>
+        </thead>
+        <tbody *ngIf="nuevoVector.length>0; else filtroIncompleto">
+          <tr *ngFor="let elemento of nuevoVector| ordenarCantidad">
+            <th scope="row">{{elemento.producto}}</th>
+            <td scope="row">{{elemento.cantidad}}</td>
+            <th scope="row">{{elemento.fecha.toString().split(" ")[1]}} - {{elemento.fecha.toString().split(" ")[2]}} - {{elemento.fecha.toString().split(" ")[3]}}</th>
+            <td scope="row">{{elemento.sede}}</td>
+
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+    <ng-template #noContent>
+      FILTRO INCOMPLETO
+    </ng-template>
+
+    <ng-template #filtroIncompleto>
+      NO HAY PRODUCTOS EN DICHO FILTRO
+    </ng-template>
+
+  </div>
+</div>

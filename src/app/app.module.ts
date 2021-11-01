@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgSelectModule } from '@ng-select/ng-select';
 //Routes
 import { APP_ROUTING } from './app.routes';
 
@@ -37,6 +37,9 @@ import { TicketComponent } from './components/ticket/ticket.component';
 import { DeliverSaleComponent } from './components/deliver-sale/deliver-sale.component';
 import { AssignPricesComponent } from './components/assign-prices/assign-prices.component';
 import { AssignProductsComponent } from './components/assign-products/assign-products.component';
+import { VentasDiariasComponent } from './reportes/ventas-diarias/ventas-diarias.component';
+import { VentasEstacionComponent } from './reportes/ventas-estacion/ventas-estacion.component';
+import { OrdenarCantidadPipe } from './reportes/ventas-estacion/ordenar-cantidad.pipe';
 
 @NgModule({
   declarations: [
@@ -58,10 +61,14 @@ import { AssignProductsComponent } from './components/assign-products/assign-pro
     DeliverSaleComponent,
     AssignPricesComponent,
     AssignProductsComponent,
+    VentasDiariasComponent,
+    VentasEstacionComponent,
+    OrdenarCantidadPipe,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    NgSelectModule,
     // MatCheckbox,
     APP_ROUTING,
     HttpClientModule,
