@@ -154,6 +154,7 @@ export class AssignPricesComponent implements OnInit {
     }
   }
   // SAVE END
+  // xd moche
 
   // OTHER FUNCTIONS START
   _highlight(_row: any, _i: number) {
