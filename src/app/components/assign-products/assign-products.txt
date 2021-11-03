@@ -1,24 +1,33 @@
-Si no se selecciona productos y 
-no se tiene lleno los precios 
+[1]Si no se selecciona productos y 
+no se escribió nada en la tabla de sede
 enotnces mostrara mensaje de error: 
-Seleccione producto(s) y luego ingrese todos los precios.
+Seleccione producto(s) e ingrese cantidades en la tabla de sedes.
 
-si ya tiene precios el producto y 
-se le quiere asignar 
-entonces mostrar mensaje de error: 
-No puede asignar el precio porque ya cuenta con precio.
+XXX
+Una cantidad como 0 o '' no se enviara 
+	si es ''
+	mensaje de error: 'ingrese cantidades en una o varias sedes'
+	si es 0
+	mensaje de error: 'Ingrese cantidades diferentes de 0.'
 
-si no se selecciona producto(s) pero 
+[2]si no se selecciona producto(s) pero 
 se tiene lleno los precios 
 entonces mostrara mensaje de error: 
-Seleccione uno o más productos.
+Seleccione uno o más productos.[modificado en codigo]
 
-Si se selecciona pero 
+YYY
+si al menos 1 cantidad existe true else false
+si el stock es menor o igual a la sumatoria de las cantidades entocnes
+true else false
+	mensaje de error:   'Algun producto no cuenta con el stock sufiente 
+                        para asignar a las sedes.'
+
+[3]Si se selecciona pero 
 no se ingresa los precios 
 entonces mostrar mensaje de error: 
-Ingrese todos los precios.
+Ingrese cantidades en una o varias sedes[modificado en ca (ver XXX 1°)]
 
-Si se selecciona y 
+[4]Si se selecciona y 
 se ingresan los precios 
 entonces mostrar mensaje de éxito: 
 Asignación existosa.

@@ -18,6 +18,11 @@ export class ProductHeadquarterService {
     return this.http.post(this._fullUris._create, _productH);
   }
 
+  _createMultiple(_multiple: any) {
+    // console.log(this._fullUris)
+    return this.http.post(this._fullUris._createMultiple, _multiple);
+  }
+
   readByBrandCategorySize(
     _idH: string,
     _brand: string,

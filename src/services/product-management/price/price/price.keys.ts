@@ -12,6 +12,7 @@ const _fUpdateById = (_idPrice: string) => {
 
 export const fullUris = {
   _create: _price,
+  _createMultiple: _price + '/multiple',
   _read: _price,
   _updateById: _fUpdateById,
   _fullPricesByIdProduct: _fGetFullPricesByIdProduct,

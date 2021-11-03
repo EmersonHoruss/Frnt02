@@ -126,6 +126,10 @@ td.mat-footer-cell {
   max-height: 1.5rem;
 }
 
+.bold{
+  font-weight: bold;
+}
+
 /* MODAL START */
 .i-modal {
   background-color: rgb(226, 230, 236);

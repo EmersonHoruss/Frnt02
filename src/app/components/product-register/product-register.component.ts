@@ -13,7 +13,7 @@ export class ProductRegisterComponent implements OnInit {
   _product = {
     _category: {
       _name: '',
-      _minLength: 5,
+      _minLength: 4,
       _maxLength: 30,
       _msg: { _error: false, _content: '' },
       _aCMinLength: {

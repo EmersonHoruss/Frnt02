@@ -5,6 +5,7 @@ import { ProductService } from '../../../services/product-management/product/pro
 import { _customerSupport } from '../../../services/customer-support/customer-support.keys';
 import { KindPriceService } from '../../../services/product-management/price/kind-price/kind-price.service';
 import { SupportService } from 'src/services/support/support.service';
+import { PriceService } from '../../../services/product-management/price/price/price.service';
 
 @Component({
   selector: 'app-assign-prices',
@@ -13,7 +14,7 @@ import { SupportService } from 'src/services/support/support.service';
 })
 export class AssignPricesComponent implements OnInit {
   // TABLES
-  // _products = [];
+  _products = [];
   _productsInTable = [];
   _prices = [];
   _productColumn = ['_category', '_brand', '_size', '_stock'];
@@ -31,7 +32,8 @@ export class AssignPricesComponent implements OnInit {
     private _msgS: MsgService,
     private _supportS: SupportService,
     private _productS: ProductService,
-    private _kindPriceS: KindPriceService
+    private _kindPriceS: KindPriceService,
+    private _priceS: PriceService
   ) {
     this._getProductsInit();
     this._getPricesInit();
@@ -40,13 +42,19 @@ export class AssignPricesComponent implements OnInit {
   _getProductsInit() {
     this._productS._readFull().subscribe((_products: any) => {
       // console.log(_products);
-      this._productsInTable = _products.map((_product: any) => {
+      const _productsInTable = _products.map((_product: any) => {
         const _costProduct = _product._price.filter(
           (_price: any) => _price._kindPrice._name.toLowerCase() === 'compra'
         );
-        _product._amount = _costProduct[0]._amount;
+        // console.log('COST PRODUCT', _costProduct);
+        if (_costProduct.length === 0) return null;
+        else _product._amount = _costProduct[0]._amount;
+
         return _product;
       });
+
+      this._products = _productsInTable.filter((e: any) => e !== null);
+      this._productsInTable = this._products;
       // console.log(this._productsInTable);
     });
   }
@@ -62,8 +70,8 @@ export class AssignPricesComponent implements OnInit {
     this._prices.forEach((e: any) => {
       this._pricesToSend.push({
         _namePrice: e._name,
-        _idPrice: e._id,
-        _value: '',
+        _id: e._id,
+        _amount: '',
         _error: false,
         _content: '',
       });
@@ -74,10 +82,42 @@ export class AssignPricesComponent implements OnInit {
   ngOnInit(): void {}
 
   // INPUT START
+  _matching(_string: string, _object: any) {
+    const _stringLC = _string.toLowerCase();
+    const _regExp = new RegExp(_stringLC);
+
+    const _amountString = _object._amount.toString();
+    const _brandString = _object._brand._name.toLowerCase();
+    const _categoryString = _object._category._name.toLowerCase();
+    const _sizeString = _object._size._name.toLowerCase();
+
+    // console.log(_regExp.test(_categoryString));
+    return _regExp.test(_categoryString)
+      ? true
+      : _regExp.test(_brandString)
+      ? true
+      : _regExp.test(_sizeString)
+      ? true
+      : _regExp.test(_amountString)
+      ? true
+      : false;
+  }
+
+  _getProducts(_event: any) {
+    // this._productIndex = -1;
+    // this._productSelected = {};
+    this._resetLocalArea();
+    const _string = _event.target.value;
+    this._productsInTable = this._products.filter((e) => {
+      // console.log(e);
+      return this._matching(_string, e);
+    });
+  }
+
   _catchValue(_event: any, _index: number) {
     const _result = this._supportS._price(_event);
     // console.log(_result);
-    this._pricesToSend[_index]._value = _result._value;
+    this._pricesToSend[_index]._amount = _result._value;
     this._pricesToSend[_index]._error = _result._error;
     this._pricesToSend[_index]._content = _result._content;
   }
@@ -85,7 +125,9 @@ export class AssignPricesComponent implements OnInit {
   _inputReady() {
     let _ready = true;
     this._pricesToSend.forEach((e: any) => {
-      const _hasChars = e._value.length === 0 ? false : true;
+      // console.log(e);
+      const _hasChars =
+        e._amount.length === 0 || parseInt(e._amount) === 0 ? false : true;
       _ready = _ready && _hasChars;
     });
     return _ready;
@@ -109,6 +151,15 @@ export class AssignPricesComponent implements OnInit {
     const _inputReady = this._inputReady();
     const _productReady = this._productIndex.length === 0 ? false : true;
     const _hasPrices = this._alreadyHasPrices();
+    const _noPrices = this._prices.length === 0 ? true : false;
+
+    if (_noPrices)
+      return {
+        _error: true,
+        _type: 'error',
+        _detail:
+          'No hay tipo de precios. Registre los tipos de precios primero',
+      };
 
     if (!_inputReady && !_productReady)
       return {
@@ -135,7 +186,7 @@ export class AssignPricesComponent implements OnInit {
       return {
         _error: true,
         _type: 'error',
-        _detail: 'Ingrese todos los precios.',
+        _detail: 'Ingrese todos los precios. 0 no está permitido como precio',
       };
 
     return {
@@ -145,22 +196,73 @@ export class AssignPricesComponent implements OnInit {
     };
   }
 
+  _dataReadyToSend() {
+    // console.log(this._productSelected);
+    const _productIds: any = [];
+    this._productSelected.forEach((e: any) => {
+      _productIds.push(e._id);
+    });
+    return {
+      _productIds,
+      _prices: this._pricesToSend,
+    };
+  }
+
+  _resetLocalArea() {
+    this._productIndex = [];
+    this._productSelected = [];
+    this._pricesToSend = [];
+  }
+
+  _reset() {
+    this._resetLocalArea();
+    this._getProductsInit();
+    this._getPricesInit();
+  }
+
   _save(_content: any, _contentSpiner: any) {
     const _hasErrors = this._hasErrors();
-    if (!_hasErrors) {
-      
+    const _error = _hasErrors._error;
+    if (!_error) {
+      // this._priceS._createMultiple('')
+      const _spinerRef = this._modalS.open(_contentSpiner, {
+        ariaLabelledBy: 'modal-basic-title',
+        centered: true,
+        size: 'sm',
+        keyboard: false,
+        backdrop: 'static',
+      });
+      this._priceS._createMultiple(this._dataReadyToSend()).subscribe((e) => {
+        // update the products
+        // this._getProductsInit();
+        // this._getPricesInit();
+        this._reset();
+        _spinerRef.close();
+        this._triggerModal(_content, _hasErrors, false);
+      });
     } else {
       this._triggerModal(_content, _hasErrors, false);
     }
+    // console.log(this._pricesToSend);
+    // console.log(this._inputReady())
   }
   // SAVE END
-  // xd moche
 
   // OTHER FUNCTIONS START
   _highlight(_row: any, _i: number) {
     this._productIndex.includes(_i)
       ? this._removeHighlight(_row, _i)
       : this._addHighlight(_row, _i);
+  }
+  // if u dont assigned prices it should be bolded
+  _bold(_row: any) {
+    const _prices = _row._price.filter(
+      (e: any) => e._kindPrice._name.toLowerCase() !== 'compra'
+    );
+    // console.log(_prices);
+    // console.log(_row);
+    return _prices.length === 0 ? true : false;
+    // return _row._price
   }
 
   _addHighlight(_row: any, _i: number) {

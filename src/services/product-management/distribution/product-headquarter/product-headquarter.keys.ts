@@ -27,6 +27,7 @@ const _fUpdateById = (_idProductH: string) => {
 
 export const fullUris = {
   _create: _productHUri,
+  _createMultiple: _productHUri + '/multiple',
   _readByBrandCategorySize: _fGetReadByBrandCategorySize,
   _read: _productHUri,
   _updateById: _fUpdateById,

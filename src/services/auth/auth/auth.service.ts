@@ -52,7 +52,7 @@ export class AuthService {
 
   _isAuthenticated(): boolean {
     const _accessToken = localStorage.getItem('_accessToken');
-    console.log(_accessToken);
+    // console.log(_accessToken);
     return _accessToken ? true : false;
   }
 }

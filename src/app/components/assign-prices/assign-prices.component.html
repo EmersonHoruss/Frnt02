@@ -20,8 +20,8 @@
           [(ngModel)]="_search"
           maxlength="40"
           #_searchInput
+          (input)="_getProducts($event)"
         />
-        <!-- (input)="_getProducts($event)" -->
       </div>
       <div class="example-container">
         <table class="pointer" mat-table [dataSource]="_productsInTable">
@@ -58,11 +58,17 @@
               class="mat-cell"
               colspan="4"
               *ngIf="
-                _searchInput.value.length !== 0 && _productsInTable.length === 0
+                _searchInput.value.length !== 0 &&
+                  _productsInTable.length === 0;
+                else _else
               "
             >
               No se ha encontrado productos con "{{ _searchInput.value }}"
             </td>
+
+            <ng-template #_else>
+              <td class="mat-cell" colspan="4">No hay productos registrados</td>
+            </ng-template>
           </tr>
           <tr
             mat-header-row
@@ -72,7 +78,8 @@
             mat-row
             *matRowDef="let row; columns: _productColumn; let i = index"
             [ngClass]="{
-              highlight: _productIndex.includes(i)
+              highlight: _productIndex.includes(i),
+              bold: _bold(row)
             }"
             (click)="_highlight(row, i)"
           ></tr>
@@ -110,7 +117,10 @@
                     maxlength="6"
                     (input)="_catchValue($event, i)"
                   />
-                  <div class="msg-error input-table">
+                  <div
+                    class="msg-error input-table"
+                    *ngIf="_pricesToSend.length !== 0"
+                  >
                     <div class="col p-0 m-0">
                       <small
                         class="row p-0 m-0"
@@ -124,11 +134,11 @@
               </ng-container>
 
               <!-- Row shown when there is no matching data. -->
-              <!-- <tr class="mat-row" *matNoDataRow>
-                <td class="mat-cell" colspan="4" *ngIf="_productIndex === -1">
-                  Seleccione un producto para ver los precios
+              <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4" *ngIf="_prices.length === 0">
+                  No hay tipo de precios. Registre los tipos de precios primero.
                 </td>
-              </tr> -->
+              </tr>
 
               <tr
                 mat-header-row

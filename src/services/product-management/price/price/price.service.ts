@@ -18,6 +18,13 @@ export class PriceService {
     return this._http.post(this._fullUris._create, _price);
   }
 
+  _createMultiple(_multiple: any) {
+    // console.log(_multiple);
+    // console.log(this._fullUris._createMultiple);
+
+    return this._http.post(this._fullUris._createMultiple, _multiple);
+  }
+
   _updateById(_idPrice: string, _updatePrice: any) {
     const _uri = this._fullUris._updateById(_idPrice);
     return this._http.put(_uri, _updatePrice);
