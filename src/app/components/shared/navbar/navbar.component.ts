@@ -29,16 +29,16 @@ export class NavbarComponent implements OnInit {
   createSaleOrder() {
     // console.log('create',this._saleOrderService._idSaleOrder);
     // localStorage.setItem('_idSaleOrder', '6147f02075130212ac4800be');
-    const _idSaleOrderLS = localStorage.getItem('_idSaleOrder');
+    // const _idSaleOrderLS = localStorage.getItem('_idSaleOrder');
     // console.log(_idSaleOrderLS, typeof _idSaleOrderLS)
 
-    if (_idSaleOrderLS?.length === 0 || !_idSaleOrderLS)
-      this._saleOrderService.create().subscribe((resp) => {
-        console.log('sale order created', resp);
-        const _idSaleOrder = JSON.parse(JSON.stringify(resp))._id;
-        localStorage.setItem('_idSaleOrder', _idSaleOrder);
-      });
-    else console.log(_idSaleOrderLS);
+    // if (_idSaleOrderLS?.length === 0 || !_idSaleOrderLS)
+    //   this._saleOrderService.create().subscribe((resp) => {
+    //     console.log('sale order created', resp);
+    //     const _idSaleOrder = JSON.parse(JSON.stringify(resp))._id;
+    //     localStorage.setItem('_idSaleOrder', _idSaleOrder);
+    //   });
+    // else console.log(_idSaleOrderLS);
   }
 
   showID() {
@@ -58,7 +58,11 @@ export class NavbarComponent implements OnInit {
   _withLicense() {
     const _dataUser: any = localStorage.getItem('_dataUser');
     const _dataUserObject: any = JSON.parse(_dataUser);
-    console.log();
+    // console.log();
     return _dataUserObject._kindUserName;
+  }
+
+  _loged() {
+    return this._authS._isAuthenticated();
   }
 }

@@ -1,0 +1,223 @@
+<div class="dad-container">
+  <!-- TITLE PAGE -->
+  <div class="title-page"><strong>Agregar productos</strong></div>
+
+  <!-- SALE ORDER ZONE -->
+  <div class="row m-0 p-0">
+    <!-- TABLE DETAIL SALE ORDER-->
+    <div class="col-8 m-0 p-0">
+      <!-- <div class="title-zone"><strong>Lista de Productos</strong></div> -->
+      <div class="search mb-3">
+        <input
+          autocomplete="off"
+          class="form-control col"
+          type="text"
+          id="_name"
+          placeholder="Buscar Productos"
+          name="_search"
+          maxlength="40"
+          #_searchInput
+          [(ngModel)]="_search"
+          (input)="_getProducts($event)"
+        />
+      </div>
+
+      <div class="example-container">
+        <!-- TABLE1 -->
+        <table class="pointer" mat-table [dataSource]="_productsInTable">
+          <!-- <table class="pointer" mat-table [dataSource]="getItems()"> -->
+          <ng-container matColumnDef="_category">
+            <th mat-header-cell *matHeaderCellDef>Categoría</th>
+            <td mat-cell *matCellDef="let _element">
+              {{ _element._category._name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="_brand">
+            <th mat-header-cell *matHeaderCellDef>Marca</th>
+            <td mat-cell *matCellDef="let _element">
+              {{ _element._brand._name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="_size">
+            <th mat-header-cell *matHeaderCellDef>Talla</th>
+            <td mat-cell *matCellDef="let _element">
+              {{ _element._size._name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="_price">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let _element">
+              <p class="m-0 p-0">
+                {{ _stockFormat(_element._stock) }}
+              </p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="_amount">
+            <th mat-header-cell *matHeaderCellDef>Precio</th>
+            <td mat-cell *matCellDef="let _element">
+              {{ _priceFormat(_element._amount) }}
+            </td>
+          </ng-container>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-row" *matNoDataRow>
+            <td
+              class="mat-cell"
+              colspan="5"
+              *ngIf="
+                _searchInput.value.length !== 0 &&
+                  _productsInTable.length === 0;
+                else _else
+              "
+            >
+              No se ha encontrado productos con "{{ _searchInput.value }}"
+            </td>
+
+            <ng-template #_else>
+              <td class="mat-cell" colspan="5">No hay productos registrados</td>
+            </ng-template>
+          </tr>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="_productsColumn; sticky: true"
+          ></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: _productsColumn; let i = index"
+            [ngClass]="{
+              highlight: _productIndex.includes(i),
+              bold: _bold(row)
+            }"
+            (click)="_highlight(row, i)"
+          ></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- MENU -->
+    <div class="col-4 m-0 p-0 menu pl-3">
+      <!-- FORM -->
+      <div class="menu-detail-so m-0 p-0">
+        <!-- TITLE -->
+        <div class="light m-0 p-0">Agregar Productos</div>
+
+        <!-- AMOUNT -->
+        <div class="m-0 p-0 mt-3">
+          <!-- CONTENT -->
+          <div class="row m-0 p-0">
+            <label class="form-control col-3 m-0 left mr-2" for="_stock"
+              >Cantidad:</label
+            >
+            <input
+              autocomplete="off"
+              class="form-control col"
+              type="text"
+              id="_stock"
+              placeholder="Ingrese cantidad aquí"
+              name="_stock"
+              maxlength="3"
+              [(ngModel)]="_suminister._stock._value"
+              (input)="_validateStock($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="row m-0 p-0 msg-error mb-2 mt-1">
+            <div class="col-3 mr-2"></div>
+            <div class="col p-0 m-0">
+              <small class="row p-0 m-0" *ngIf="_suminister._stock._error">
+                {{ _suminister._stock._content }}
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRICE -->
+        <div class="m-0 p-0">
+          <!-- CONTENT -->
+          <div class="row m-0 p-0">
+            <label class="form-control col-3 m-0 left mr-2" for="_amount"
+              >Precio:</label
+            >
+            <input
+              autocomplete="off"
+              class="form-control col"
+              type="text"
+              id="_amount"
+              placeholder="Ingrese precio aquí"
+              name="_amount"
+              maxlength="6"
+              [(ngModel)]="_suminister._amount._value"
+              (input)="_validateAmount($event)"
+            />
+          </div>
+
+          <!-- MSG ERROR -->
+          <div class="row m-0 p-0 msg-error mb-2 mt-1">
+            <div class="col-3 mr-2"></div>
+            <div class="col p-0 m-0">
+              <small class="row p-0 m-0" *ngIf="_suminister._amount._error">
+                {{ _suminister._amount._content }}
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MENU SALE ORDER -->
+      <div class="menu-so m-0 p-0">
+        <!-- <div class="title m-0 p-0">Menú Pedido</div> -->
+        <div class="card col mb-3">
+          <div class="card-body">
+            Recuerda: Un producto sin precio de compra no puede ser asignado a
+            sede ni precios.
+          </div>
+        </div>
+        <div class="btns m-0 p-0">
+          <button
+            class="btn btn-dark btn-block"
+            (click)="_save(content, contentSpiner)"
+          >
+            Guardar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS -->
+<!-- SUCCES: DONE CORRECTLY -->
+<!-- ERROR: PRODUCT ALREADY REGISTED -->
+<ng-template #content let-modal>
+  <div class="container-msg-modal">
+    <div class="msg-modal">
+      <!-- ICON -->
+      <div class="icon-modal i-modal"><i [ngClass]="_msg._icon"></i></div>
+
+      <!-- INFORMATION -->
+      <div class="information-modal">
+        <p class="title-modal">{{ _msg._title }}</p>
+        <p class="detail-modal">{{ _msg._detail }}</p>
+      </div>
+
+      <!-- BUTTONS -->
+      <div class="btns-modal">
+        <button class="btn btn-dark btn-lg" (click)="modal.close('ok')">
+          Ok
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contentSpiner let-modal>
+  <div class="spinner-container">
+    <p class="title-spinner pb-3">Espere unos segundos por favor...</p>
+    <div class="spinner"></div>
+  </div>
+</ng-template>

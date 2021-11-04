@@ -11,5 +11,7 @@ export const fullUris = {
   _paid: _saleOrderURI + '/paid',
   _read: _saleOrderURI,
   _readWithStatus: _saleOrderURI + '/readWithStatus',
-  _deliver: _saleOrderURI + '/deliver'
+  _deliver: _saleOrderURI + '/deliver',
+  _dailySales: _saleOrderURI + '/dailySales',
+  _productsByStation: _saleOrderURI + '/productsByStation',
 };

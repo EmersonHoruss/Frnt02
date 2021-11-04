@@ -30,9 +30,11 @@ export class LoginComponent implements OnInit {
   _login(_content: any, _contentSpiner: any) {
     this._authS._login(this._user).subscribe(
       (e: any) => {
+        console.log('sub')
         this._router.navigate(['/home']);
       },
       (e) => {
+        console.log('sub no')
         const _detail = e.error.message;
         const _type = 'error';
 

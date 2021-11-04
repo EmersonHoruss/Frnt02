@@ -72,10 +72,11 @@ export class SalesDetailComponent implements OnInit {
     );
     const _dataUser2 = JSON.parse(_dataUser1);
     const _idH = _dataUser2._headquarter._id;
+    // console.log('IDH',_idH);
     this._productHS.redFull(_idH).subscribe((e: any) => {
       this._products = e;
       this._productsInTable = this._products;
-      console.log(this._products);
+      // console.log(this._products);
     });
   }
 
@@ -214,15 +215,22 @@ export class SalesDetailComponent implements OnInit {
 
   _ifCreate(_content: any, _modalReference: any) {
     const _product = this._getProduct();
-    this._dso._createPlusAmount(_product).subscribe((e) => {
+    this._dso._createPlusAmount(_product).subscribe((e: any) => {
       _modalReference.close();
-      this._triggerModal(_content, {
-        _type: 'success',
-        _detail: 'El producto ha sido añadido exitosamente al pedido.',
-      });
-      console.log(e);
-      this._resetingValues();
-      this._getProductsInit();
+      if (!e._error) {
+        this._triggerModal(_content, {
+          _type: 'success',
+          _detail: 'El producto ha sido añadido exitosamente al pedido.',
+        });
+        // console.log(e);
+        this._resetingValues();
+        this._getProductsInit();
+      } else {
+        this._triggerModal(_content, {
+          _type: 'error',
+          _detail: 'Cantidad no disponible. Actualice la página.',
+        });
+      }
     });
   }
 
@@ -236,7 +244,7 @@ export class SalesDetailComponent implements OnInit {
           _detail: 'El producto ha sido añadido exitosamente al pedido.',
         });
 
-        console.log(e);
+        // console.log(e);
         this._resetingValues();
         this._getProductsInit();
       } else {
@@ -290,7 +298,7 @@ export class SalesDetailComponent implements OnInit {
   // END BUTTONS
 
   highlight(row: any, i: number) {
-    console.log(localStorage.getItem('_idSO'));
+    // console.log(localStorage.getItem('_idSO'));
     if (i === this._productIndex) {
       this._productIndex = -1;
       this._productSelected = {};
@@ -298,8 +306,10 @@ export class SalesDetailComponent implements OnInit {
     } else {
       this._productIndex = i;
       this._productSelected = row;
-      this._prices = row._product._price;
-      // console.log(row);
+      this._prices = row._product._price.filter(
+        (e: any) => e._kindPrice._name.toLowerCase() !== 'compra'
+      );
+      // console.log(this._prices);
     }
     // console.log(this._productSelected);
     // console.log(row, i);

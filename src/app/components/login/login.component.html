@@ -21,6 +21,7 @@
           name="_nickname"
           [(ngModel)]="_user._nickname"
           maxlength="30"
+          (keyup.enter)="_login(content, contentSpiner)"
         />
       </div>
 
@@ -38,6 +39,7 @@
           name="_password"
           [(ngModel)]="_user._password"
           maxlength="20"
+          (keyup.enter)="_login(content, contentSpiner)"
         />
       </div>
     </div>

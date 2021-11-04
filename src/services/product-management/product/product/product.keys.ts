@@ -4,7 +4,8 @@ const _product = _productUris._product;
 
 export const fullUris = {
   _create: _product,
+  _createMultiple: _product + '/multiple',
   _read: _product,
   _createWithNoId: _product + '/createWithNoId',
-  _readFull: _product + '/full'
+  _readFull: _product + '/full',
 };

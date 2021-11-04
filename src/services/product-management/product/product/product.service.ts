@@ -12,11 +12,15 @@ export class ProductService {
 
   _create(_product: any) {
     // console.log(this._fullUris._create);
-    _product._stock = 0;
+    _product._stock = 50;
     _product._manufactured = false;
 
     // console.log(_product);
     return this._http.post(this._fullUris._create, _product);
+  }
+
+  _createMultiple(_multiple: any) {
+    return this._http.post(this._fullUris._createMultiple, _multiple);
   }
 
   _createWithNoId(_product: any) {

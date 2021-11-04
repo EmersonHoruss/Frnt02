@@ -1,0 +1,27 @@
+<div class="dashboard-nav-dropdown" *ngIf="_withLicense() !== 'seller'">
+    <button
+      href="#"
+      class="btn btn-dark item dashboard-nav-dropdown-toggle"
+    >
+      <i class="fas fa-hand-holding-usd"></i> &nbsp; Caja
+    </button>
+    <div class="dashboard-nav-dropdown-menu">
+      <!-- OPEN CASH -->
+      <button
+        class="btn sub-item dashboard-nav-dropdown-item"
+        *ngIf="_withLicense() === 'owner'"
+      >
+        <i class="fas fa-cart-arrow-down"></i>
+        <p class="p-0 m-0 ml-2">Abrir Caja</p>
+      </button>
+
+      <!-- SEE CASH -->
+      <button
+        class="btn sub-item dashboard-nav-dropdown-item"
+        *ngIf="_withLicense() !== 'seller'"
+      >
+        <i class="fas fa-cart-arrow-down"></i>
+        <p class="p-0 m-0 ml-2">Ver Caja</p>
+      </button>
+    </div>
+  </div>

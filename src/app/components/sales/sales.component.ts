@@ -80,12 +80,23 @@ export class SalesComponent implements OnInit {
       : this._setClientLS();
   }
 
+  _getIdHeadquarter(): any {
+    const _dataUser: any = localStorage.getItem('_dataUser');
+    const _dataUserObject = JSON.parse(_dataUser);
+    return {
+      _idHeadquarter: _dataUserObject._headquarter._id,
+      _idSeller: new Date(),
+    };
+  }
+
   _mngSO(_boolToResetTable = false) {
     // console.log(localStorage.getItem('_idSO') ? true : false);
+    const _idH = this._getIdHeadquarter();
+
     if (localStorage.getItem('_idSO')) {
       //CONDITION
       if (localStorage.getItem('_isSavedSO') === 'true') {
-        this._soS.create().subscribe((e: any) => {
+        this._soS.create(_idH).subscribe((e: any) => {
           localStorage.setItem('_idSO', e._id);
           localStorage.setItem('_isSavedSO', 'false');
           if (_boolToResetTable) {
@@ -95,7 +106,7 @@ export class SalesComponent implements OnInit {
         });
       }
     } else {
-      this._soS.create().subscribe((e: any) => {
+      this._soS.create(_idH).subscribe((e: any) => {
         localStorage.setItem('_idSO', e._id);
         localStorage.setItem('_isSavedSO', 'false');
       });

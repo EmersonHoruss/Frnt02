@@ -3,7 +3,7 @@
     <i class="fas fa-store-alt"></i><span> Danielitos</span>
   </div>
 
-  <div class="headquarter-name">
-    <i class="fas fa-store"></i> <span> &nbsp;{{_headquarterName}}</span>
+  <div class="headquarter-name" *ngIf="_loged()">
+    <i class="fas fa-store"></i> <span> &nbsp;{{_headquarter()}}</span>
   </div>
 </div>

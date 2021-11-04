@@ -1,0 +1,13 @@
+.title-page {
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.dad-container {
+  margin: 3rem 5rem 0 5rem !important;
+  /* padding-bottom: 3rem !important; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+}

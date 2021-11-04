@@ -1,0 +1,11 @@
+mme=mostrar mensaje de error
+no productos y no suministro ► mme: 'Seleccione producto(s) y agrege cantidad y precio.'
+
+
+	suministro = 0 ► mme: 'La cantidad y el precio deben ser diferente de 0.'
+	suministro = 'Cantidad y precio deben estar llenados.'
+
+
+no producto y si suministro ► mme: 'Seleccione productos.'
+
+si producto y si suministro ► mmE: 'Agregación exitosa.'

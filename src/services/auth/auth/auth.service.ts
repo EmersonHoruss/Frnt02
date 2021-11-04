@@ -30,6 +30,7 @@ export class AuthService {
 
   _logout() {
     localStorage.removeItem('_accessToken');
+    
     this._router.navigate(['/login']);
   }
 

@@ -40,8 +40,8 @@ export class DeliverSaleComponent implements OnInit {
           e._status.toLowerCase() === 'para entregar'
       );
       this._salesTable = this._sales;
-      console.log(e);
-      console.log(this._sales);
+      // console.log(e);
+      // console.log(this._sales);
     });
   }
 
@@ -80,21 +80,28 @@ export class DeliverSaleComponent implements OnInit {
       keyboard: false,
       backdrop: 'static',
     });
-    console.log(this._saleOrder, typeof this._saleOrder);
+    // console.log(this._saleOrder, typeof this._saleOrder);
     this._saleOrderS
       ._deliver({
         _id: _idSO,
         _idDeliver,
+        _dateDeliver: new Date(),
       })
-      .subscribe((e) => {
+      .subscribe((_resultDeliver: any) => {
         _referenceLoader.close();
         this._getSalesInit();
-
-        this._triggerModal(
-          _content,
-          { _type: 'success', _detail: 'Entrega completada' },
-          false
-        );
+        if (!_resultDeliver._error)
+          this._triggerModal(
+            _content,
+            { _type: 'success', _detail: 'Entrega completada' },
+            false
+          );
+        else
+          this._triggerModal(_content, {
+            _type: 'error',
+            _detail:
+              'Pedido ya ha sido entregado, se actualizarán los pedidos.',
+          });
       });
   }
 

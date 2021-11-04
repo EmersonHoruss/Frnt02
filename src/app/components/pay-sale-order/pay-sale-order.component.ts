@@ -79,54 +79,64 @@ export class PaySaleOrderComponent implements OnInit {
       .collectWithOutTS({
         _id: this._saleOrder._id,
         _idDebtCollector,
+        _dateCollect: new Date(),
       })
-      .subscribe((e: any) => {
+      .subscribe((_resultCollect: any) => {
+        console.log(_resultCollect);
         this._saleOrderS.nonPaid().subscribe((e: any) => {
           _spinerReference.close();
           this._sales = e;
           this._salesTable = e;
-          const _ticketReference = this._modalS
-            .open(_contentTicket, {
-              ariaLabelledBy: 'modal-basic-title',
-              centered: true,
-              size: 'sm',
-            })
-            .shown.toPromise()
-            .then((e: any) => {
-              this._print();
-              this._modalS.dismissAll();
-              console.log('has open modals', this._modalS.hasOpenModals());
-              this._modalS
-                .open(_contentTicket, {
-                  ariaLabelledBy: 'modal-basic-title',
-                  centered: true,
-                  size: 'sm',
-                })
-                .result.then(
-                  () => {
-                    this._triggerModal(
-                      _content,
-                      {
-                        _type: 'success',
-                        _detail:
-                          'Se ha cobrado correctamente. No se olvide de imprimir el ticket!',
-                      },
-                      false
-                    );
-                  },
-                  () => {
-                    this._triggerModal(
-                      _content,
-                      {
-                        _type: 'success',
-                        _detail:
-                          'Se ha cobrado correctamente. No se olvide de imprimir el ticket!',
-                      },
-                      false
-                    );
-                  }
-                );
+          if (!_resultCollect._error) {
+            this._modalS
+              .open(_contentTicket, {
+                ariaLabelledBy: 'modal-basic-title',
+                centered: true,
+                size: 'sm',
+              })
+              .shown.toPromise()
+              .then((e: any) => {
+                this._print();
+                this._modalS.dismissAll();
+                console.log('has open modals', this._modalS.hasOpenModals());
+                this._modalS
+                  .open(_contentTicket, {
+                    ariaLabelledBy: 'modal-basic-title',
+                    centered: true,
+                    size: 'sm',
+                  })
+                  .result.then(
+                    () => {
+                      this._triggerModal(
+                        _content,
+                        {
+                          _type: 'success',
+                          _detail:
+                            'Se ha cobrado correctamente. No se olvide de imprimir el ticket!',
+                        },
+                        false
+                      );
+                    },
+                    () => {
+                      this._triggerModal(
+                        _content,
+                        {
+                          _type: 'success',
+                          _detail:
+                            'Se ha cobrado correctamente. No se olvide de imprimir el ticket!',
+                        },
+                        false
+                      );
+                    }
+                  );
+              });
+          } else {
+            this._triggerModal(_content, {
+              _type: 'error',
+              _detail:
+                'Pedido ya ha sido cobrado, se actualizarán los pedidos.',
             });
+          }
         });
       });
 

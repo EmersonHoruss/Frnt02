@@ -13,9 +13,9 @@ export class SaleOrderService {
 
   constructor(private http: HttpClient) {}
 
-  create() {
+  create(_send: any) {
     // console.log(this._fullUris)
-    return this.http.post(this._fullUris._create, {});
+    return this.http.post(this._fullUris._create, _send);
   }
 
   delete() {
@@ -67,5 +67,10 @@ export class SaleOrderService {
   read() {
     // console.log(this._fullUris)
     return this.http.get(this._fullUris._read);
+  }
+
+  _dailySales(_dateNow: any) {
+    console.log(_dateNow);
+    return this.http.post(this._fullUris._dailySales, _dateNow);
   }
 }

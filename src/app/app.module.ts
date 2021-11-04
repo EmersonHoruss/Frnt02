@@ -40,6 +40,7 @@ import { AssignProductsComponent } from './components/assign-products/assign-pro
 import { VentasDiariasComponent } from './reportes/ventas-diarias/ventas-diarias.component';
 import { VentasEstacionComponent } from './reportes/ventas-estacion/ventas-estacion.component';
 import { OrdenarCantidadPipe } from './reportes/ventas-estacion/ordenar-cantidad.pipe';
+import { SupplyProductsComponent } from './components/supply-products/supply-products.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { OrdenarCantidadPipe } from './reportes/ventas-estacion/ordenar-cantidad
     VentasDiariasComponent,
     VentasEstacionComponent,
     OrdenarCantidadPipe,
+    SupplyProductsComponent,
   ],
   imports: [
     BrowserModule,
